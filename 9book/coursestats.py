@@ -1,8 +1,9 @@
 from PIL import Image
+import urllib2, cStringIO
 
 def getstats(im):
-	pixels=Image.open(im)
-	pix=pixels.load()
+	f = cStringIO.StringIO(urllib2.urlopen(URL).read())
+	pix = Image.open(f).load()
 	xlocs=[90,150,210,270,330]
 	yloc=248
 
