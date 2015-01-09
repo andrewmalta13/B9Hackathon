@@ -1,6 +1,6 @@
 import webapp2
 import json
-import coursestats
+import OCIScraper
 
 from google.appengine.ext import ndb
 
@@ -12,17 +12,20 @@ class Course(ndb.Model):
     location = ndb.StringProperty()
     distReqAreas = ndb.StringProperty()
     term = ndb.StringProperty()
+    instructorPermissionRequired = ndb.StringProperty()
+    final = ndb.StringProperty()
+    courseNum = ndb.StringProperty()
 
     description = ndb.TextProperty()
 
-    permissionRequired = ndb.BooleanProperty()
+    departmentPermissionRequired = ndb.BooleanProperty()
     readingPeriod = ndb.BooleanProperty()
 
-    classRating = ndb.floatProperty() 
-    professorRating = ndb.floatProperty()
-    workRating = ndb.floatProperty()
+    classRating = ndb.FloatProperty() 
+    professorRating = ndb.FloatProperty()
+    workRating = ndb.FloatProperty()
 
-    courseNum = ndb.IntegerProperty()
+    
 
 class JSONHandler(webapp2.RequestHandler):
     def get(self):
@@ -36,7 +39,8 @@ class JSONHandler(webapp2.RequestHandler):
                                 "distReqAreas": course.disReqAreas,
                                 "term": course.term,
                                 "description": course.description,
-                                "permissionRequired": course.permissionRequired,
+                                "instructorPermissionRequired": course.instructorPermissionRequired,
+                                "departmentPermissionRequired": course.departmentPermissionRequired,
                                 "readingPeriod":course.readingPeriod,
                                 "classRating": course.classRating,
                                 "professorRating": course.professorRating,
@@ -48,8 +52,7 @@ class JSONHandler(webapp2.RequestHandler):
 
 class FetchCoursesHandler(webapp2.RequestHandler):
     def get(self):
-        #run code from the OCI Parsing script to generate course objects
-        self.response.out.write("module not implemented") 
+        
 
 
 
