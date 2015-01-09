@@ -2,30 +2,28 @@ import webapp2
 import json
 from google.appengine.ext import ndb
 
-class MainHandler(webapp2.RequestHandler):
-    
 
-    #ndb model class for each Course that we are storing.
-    class Course(ndb.Model):
-      title = ndb.StringProperty()
-      professor = ndb.StringProperty()
-      time = ndb.StringProperty()
-      location = ndb.StringProperty()
-      distReqAreas = ndb.StringProperty()
-      term = ndb.StringProperty()
+#ndb model class for each Course that we are storing.
+class Course(ndb.Model):
+    title = ndb.StringProperty()
+    professor = ndb.StringProperty()
+    time = ndb.StringProperty()
+    location = ndb.StringProperty()
+    distReqAreas = ndb.StringProperty()
+    term = ndb.StringProperty()
 
-      description = ndb.TextProperty()
+    description = ndb.TextProperty()
 
-      permissionRequired = ndb.BooleanProperty()
-      readingPeriod = ndb.BooleanProperty()
+    permissionRequired = ndb.BooleanProperty()
+    readingPeriod = ndb.BooleanProperty()
 
-      classRating = ndb.floatProperty() 
-      professorRating = ndb.floatProperty()
-      workRating = ndb.floatProperty()
+    classRating = ndb.floatProperty() 
+    professorRating = ndb.floatProperty()
+    workRating = ndb.floatProperty()
 
-      courseNum = ndb.IntegerProperty()
+    courseNum = ndb.IntegerProperty()
 
-
+class JSONHandler(webapp2.RequestHandler):
     def get(self):
         courses = ndb.gql("SELECT * FROM Course")
         coursesjson = {"courses": []
@@ -43,9 +41,16 @@ class MainHandler(webapp2.RequestHandler):
                                 "professorRating": course.professorRating,
                                 "workRating": course.workRating,
                                 "courseNum": course.courseNum})
-
         self.response.write(json.dumps(coursesjson))
 
+
+class FetchCoursesHandler(webapp2.RequestHandler):
+    def get(self):
+        #run code from the OCI Parsing script to generate course objects 
+
+
+
 app = webapp2.WSGIApplication([
-    ('/courses.json', MainHandler)
+    ('/courses.json', JSONHandler),
+    ('/fetch', FetchCoursesHandler)
 ], debug=True)
