@@ -24,12 +24,28 @@ class MainHandler(webapp2.RequestHandler):
       workRating = ndb.floatProperty()
 
       courseNum = ndb.IntegerProperty()
-      
 
 
     def get(self):
-        self.response.write('Hello world!')
+        courses = ndb.gql("SELECT * FROM Course")
+        coursesjson = {"courses": []
+        for course in courses:
+            coursesjson.append({"title": course.title,
+                                "professor": course.professor,
+                                "time": course.time,
+                                "location": course.location,
+                                "distReqAreas": course.disReqAreas,
+                                "term": course.term,
+                                "description": course.description,
+                                "permissionRequired": course.permissionRequired,
+                                "readingPeriod":course.readingPeriod,
+                                "classRating": course.classRating,
+                                "professorRating": course.professorRating,
+                                "workRating": course.workRating,
+                                "courseNum": course.courseNum})
+
+        self.response.write(json.dumps(coursesjson))
 
 app = webapp2.WSGIApplication([
-    ('/', MainHandler)
+    ('/courses.json', MainHandler)
 ], debug=True)
