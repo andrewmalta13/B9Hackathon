@@ -1,14 +1,26 @@
 package com.example.book;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.AsyncTask;
+import android.util.Log;
 
 
-public class ImageStats {
-
+public class ImageStats extends AsyncTask<Void, Void, Double> {
+	private String url = "http://tinypic.com/view.php?pic=qwxgdk&s=8#.VLB682TF8gA";
+	
+    
 	public static double getStats(String url)
 	{
-		Bitmap image=ImageDecoder.getBitmapFromURL(url);
+		
+		Bitmap image= getBitmapFromURL(url);
 		
 		int[] xlocs={90,150,210,270,330};
 		int yloc=248;
@@ -29,8 +41,31 @@ public class ImageStats {
 		}
 		return (total/(float)num);
 	}
-	public static void main(String[] args)
-	{
-		System.out.println(getStats("http://i60.tinypic.com/qwxgdk.jpg"));
+	
+	public static Bitmap getBitmapFromURL(String src) {
+	    try {
+	    	Log.d("debug", "we got here.");
+	        URL url = new URL(src);
+	        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+	        connection.setDoInput(true);
+	        connection.connect();
+	        InputStream input = connection.getInputStream();
+	        Bitmap myBitmap = BitmapFactory.decodeStream(input);
+	        return myBitmap;
+	    } catch (IOException e) {
+	        return null;
+
+	    }
 	}
+
+	@Override
+	protected Double doInBackground(Void... params) {
+		return  getStats(url);
+	}
+	
+	 @Override
+     protected void onPostExecute(Double data) {
+         Log.d("result", "" + data);
+     }
+	
 }

@@ -46,14 +46,32 @@ class JSONHandler(webapp2.RequestHandler):
                                 "professorRating": course.professorRating,
                                 "workRating": course.workRating,
                                 "courseNum": course.courseNum})
+
         self.response.write(json.dumps(coursesjson))
 
 
 
 class FetchCoursesHandler(webapp2.RequestHandler):
     def get(self):
-        
-
+        for i in range (20001, 30000):
+          courseText = courseNumberTest(i)
+          if courseText:
+            courseInfoDict = parseCourseText(courseText)
+            c = Course(title = courseInfoDict["title"],
+                       professor = courseInfoDict["professor"],
+                       time = courseInfoDict["time"],
+                       location = courseInfoDict["location"],
+                       distReqAreas = courseInfoDict["distReqAreas"],
+                       term = courseInfoDict["term"],
+                       description = courseInfoDict["description"],
+                       instructorPermissionRequired = courseInfoDict["instructorPermissionRequired"],
+                       departmentPermissionRequired = courseInfoDict["departmentPermissionRequired"],
+                       readingPeriod = courseInfoDict["readingPeriod"],
+                       classRating = courseInfoDict["classRating"],
+                       professorRating = courseInfoDict["professorRating"],
+                       workRating = courseInfoDict["workRating"],
+                       courseNum = courseInfoDict["courseNum"])
+            c.put()
 
 
 app = webapp2.WSGIApplication([
