@@ -102,4 +102,7 @@ for element in list_of_items:
 			index -= 1
 		index += 1
 
-print dictionary
+#cleaning up dictionary output
+clean_dict = [value.strip() for value in dictionary.values()]
+
+print clean_dict
