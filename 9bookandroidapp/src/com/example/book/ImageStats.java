@@ -1,26 +1,14 @@
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
+package com.example.book;
 
-import javax.imageio.ImageIO;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 
 
 public class ImageStats {
 
 	public static double getStats(String url)
 	{
-		URL imloc;
-		FastRGB image = null;
-		try {
-			imloc = new URL(url);
-			try {
-				image = new FastRGB(ImageIO.read(imloc));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} catch (MalformedURLException e1) {
-			e1.printStackTrace();
-		}
+		Bitmap image=ImageDecoder.getBitmapFromURL(url);
 		
 		int[] xlocs={90,150,210,270,330};
 		int yloc=248;
@@ -32,12 +20,17 @@ public class ImageStats {
 			int barheight=-1;
 			while (bg <= 10) {
 				barheight+=1;
-				int[] rgb=image.getRGB(xlocs[i-1], yloc-barheight);
-				bg=rgb[2]+rgb[3];
+				int b=Color.blue(image.getPixel(xlocs[i-1], yloc-barheight));
+				int g=Color.green(image.getPixel(xlocs[i-1], yloc-barheight));
+				bg=b+g;
 			}
 			total+=barheight*i;
 			num+=barheight;
 		}
 		return (total/(float)num);
+	}
+	public static void main(String[] args)
+	{
+		System.out.println(getStats("http://i60.tinypic.com/qwxgdk.jpg"));
 	}
 }
