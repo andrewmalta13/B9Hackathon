@@ -54,11 +54,11 @@ def parseCourseText(fullcourseinfo):
     #"location" :lambda item:
     "term": lambda item: item.startswith("Spring") or (item.startswith("Fall") or item.startswith("Summer")),
     "departmentPermissionRequired": lambda item: "Pre-Approval" in item,
-    "final":lambda item: "Final exam scheduled" in item or "No regular final examination" in item,
+    "final":lambda item: "Final exam scheduled" == item or "No regular final examination" == item,
     "Areas":lambda item: item.startswith("Areas"),
     "Skills": lambda item: item.startswith("Skills"),
-    "instructorPermissionRequired": lambda item: "Permission of instructor required" in item,
-    "readingPeriod": lambda item: "Meets during reading period" in item,
+    "instructorPermissionRequired": lambda item: "Permission of instructor required" == item,
+    "readingPeriod": lambda item: "Meets during reading period" == item,
     "YCnote": lambda item: "YC" in item and ":" in item,
     "description": lambda item: True
     }
