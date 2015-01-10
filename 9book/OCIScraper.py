@@ -113,5 +113,3 @@ def OCIScraper(fullcourseinfo):
 	clean_dict = [value.strip() for value in dictionary.values()]
 
 	return clean_dict
-
-print OCIScraper(20001)
