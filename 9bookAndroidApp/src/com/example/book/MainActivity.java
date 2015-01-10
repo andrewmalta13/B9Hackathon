@@ -38,7 +38,9 @@ public class MainActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        new ImageStats().execute();
+        
+        //test code for the image stats task.
+        //new ImageStats("http://i60.tinypic.com/qwxgdk.jpg").execute();
         
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);

@@ -14,7 +14,11 @@ import android.util.Log;
 
 
 public class ImageStats extends AsyncTask<Void, Void, Double> {
-	private String url = "http://tinypic.com/view.php?pic=qwxgdk&s=8#.VLB682TF8gA";
+	private String url = "";
+	
+	public ImageStats(String str){
+		url = str;
+	}
 	
     
 	public static double getStats(String url)
@@ -54,13 +58,12 @@ public class ImageStats extends AsyncTask<Void, Void, Double> {
 	        return myBitmap;
 	    } catch (IOException e) {
 	        return null;
-
 	    }
 	}
 
 	@Override
 	protected Double doInBackground(Void... params) {
-		return  getStats(url);
+		return getStats(url);
 	}
 	
 	 @Override
