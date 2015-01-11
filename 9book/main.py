@@ -58,7 +58,7 @@ class FetchCoursesHandler(webapp2.RequestHandler):
     def get(self):
 
         for i in range (20001, 30000):
-          courseText = OCIScraper.courseNumberTest(i)
+          courseText = OCIScraper.courseNumberTest(i,201501)
           if courseText:
             courseInfoDict = OCIScraper.parseCourseText(courseText)
             c = Course(title = courseInfoDict["courseName"],

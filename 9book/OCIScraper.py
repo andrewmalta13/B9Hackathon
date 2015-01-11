@@ -8,9 +8,9 @@ sys.path.insert(0, 'libraries') # import the libraries that we need to the GAE p
 from bs4 import BeautifulSoup
 
 
-def courseNumberTest(courseNumber):                 #function will iterate through range of possible course numbers testing to see if they exist
+def courseNumberTest(courseNumber,termNumber):                 #function will iterate through range of possible course numbers testing to see if they exist
     try:
-        url = urllib2.urlopen("http://students.yale.edu/oci/resultDetail.jsp?course=%s&term=201501" % courseNumber)
+        url = urllib2.urlopen("http://students.yale.edu/oci/resultDetail.jsp?course=%s&term=%s" % (courseNumber,termNumber))
         soup = BeautifulSoup(url.read())            #generates Beautiful Soup object for site
         pageTextWithExtraComments = soup.get_text()         #random commens seem to come along for the ride
         pageTextLength = len(pageTextWithExtraComments)
