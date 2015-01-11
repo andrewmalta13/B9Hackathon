@@ -1,23 +1,17 @@
 package com.example.book;
 
-import android.app.Activity;
-
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
+import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
+import android.webkit.WebViewFragment;
 
 
 public class MainActivity extends Activity
@@ -39,8 +33,8 @@ public class MainActivity extends Activity
         setContentView(R.layout.activity_main);
         
         
-        //test code for the image stats task.
-        //new ImageStats("http://i60.tinypic.com/qwxgdk.jpg").execute();
+  
+       
         
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -105,10 +99,30 @@ public class MainActivity extends Activity
         if (id == R.id.action_settings) {
             return true;
         }
+        else if(id == R.id.update_course_list){
+        	updateCourseList();
+        	return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
-    /**
+    private void updateCourseList() {
+    	FragmentManager fragmentManager = getFragmentManager();
+    	//BrowserFragment cas = new BrowserFragment();
+    	ImprovedWebViewFragment casLoginView = new ImprovedWebViewFragment("https://faculty.yale.edu/viewevals/Search/Summary?crn=21260&tC=201201");
+ 	    
+    	
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, casLoginView)
+                .commit();
+        
+        
+             	
+    	 //new ImageStats("http://i60.tinypic.com/qwxgdk.jpg").execute();
+		
+	}
+
+	/**
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {

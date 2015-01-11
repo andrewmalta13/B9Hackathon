@@ -8,9 +8,9 @@ sys.path.insert(0, 'libraries') # import the libraries that we need to the GAE p
 from bs4 import BeautifulSoup
 
 
-def courseNumberTest(courseNumber):                 #function will iterate through range of possible course numbers testing to see if they exist
+def courseNumberTest(courseNumber,termNumber):                 #function will iterate through range of possible course numbers testing to see if they exist
     try:
-        url = urllib2.urlopen("http://students.yale.edu/oci/resultDetail.jsp?course=%s&term=201501" % courseNumber)
+        url = urllib2.urlopen("http://students.yale.edu/oci/resultDetail.jsp?course=%s&term=%s" % (courseNumber,termNumber))
         soup = BeautifulSoup(url.read())            #generates Beautiful Soup object for site
         pageTextWithExtraComments = soup.get_text()         #random commens seem to come along for the ride
         pageTextLength = len(pageTextWithExtraComments)
@@ -39,30 +39,47 @@ def parseCourseText(fullcourseinfo):
 
 
 
-    list_of_possible_fields = ["Department","Course Number", "alternateDept","courseName","professor","timeLocation","term",
-    "departmentPermissionRequired","final","Areas","Skills","instructorPermissionRequired","description"]
+    list_of_possible_fields = ["Department","CourseNumber", "alternateDept","courseName","professor","timeLocation","term",
+    "departmentPermissionRequired","final","Areas","Skills","instructorPermissionRequired","readingPeriod","YCnote", "description"]
 
         #list_of_items defined in try. is courseinfoarray
 
     bool_dict = {
     "Department" : lambda item: True,
-    "Course Number": lambda item: True,
+    "CourseNumber": lambda item: True,
     "alternateDept": lambda item: item.find("/") >= 0,
     "courseName": lambda item: True, #Always present
     "professor": lambda item: re.match(r"\D(\D*\s)*\D*$",item) != None,
     "timeLocation": lambda item: not ("Spring" in item or ("Fall" in item or "Summer" in item)),
     #"location" :lambda item:
-    "term": lambda item: "Spring" in item or ("Fall" in item or "Summer" in item),
+    "term": lambda item: item.startswith("Spring") or (item.startswith("Fall") or item.startswith("Summer")),
     "departmentPermissionRequired": lambda item: "Pre-Approval" in item,
-    "final":lambda item: "Final" in item or "final" in item,
-    "Areas":lambda item: "Areas" in item,
-    "Skills": lambda item: "Skills" in item,
-    "instructorPermissionRequired": lambda item: "require" in item,
+    "final":lambda item: "Final exam scheduled" == item or "No regular final examination" == item,
+    "Areas":lambda item: item.startswith("Areas"),
+    "Skills": lambda item: item.startswith("Skills"),
+    "instructorPermissionRequired": lambda item: "Permission of instructor required" == item,
+    "readingPeriod": lambda item: "Meets during reading period" == item,
+    "YCnote": lambda item: "YC" in item and ":" in item,
     "description": lambda item: True
     }
 
 
-    dictionary = {}
+    initialDictionary = {   "Department" : "",
+                            "CourseNumber" : "", 
+                            "alternateDept" : "",
+                            "courseName" : "",
+                            "professor" : "",
+                            "timeLocation" : "",
+                            "term" : "",
+                            "departmentPermissionRequired" : "",
+                            "final" : "",
+                            "Areas" : "",
+                            "Skills" : "",
+                            "instructorPermissionRequired" : "",
+                            "readingPeriod" : "",
+                            "YCnote" : "",
+                            "description" : ""
+                        }
 
 
     index = 0
@@ -71,7 +88,7 @@ def parseCourseText(fullcourseinfo):
         while index < (len(list_of_possible_fields)):
             #print element+ " " + list_of_possible_fields[index]
             if bool_dict[list_of_possible_fields[index]](element):
-                dictionary[list_of_possible_fields[index]] = element
+                initialDictionary[list_of_possible_fields[index]] = element
                 if list_of_possible_fields[index] != "professor":
                     list_of_possible_fields.remove(list_of_possible_fields[index])
                 elif list_of_possible_fields[index] == "timeLocation":
@@ -83,7 +100,59 @@ def parseCourseText(fullcourseinfo):
                 index -= 1
             index += 1
 
-    #cleaning up dictionary output
-    #clean_dict = {dictionary.keys(): value.strip() for value in dictionary.values()}
+    cleanDictionary = {}
+
+    for key, value in initialDictionary.iteritems():
+        cleanDictionary[key] = value.strip()
     
-    return dictionary
+    finalDictionary = {"courseName":cleanDictionary["courseName"],
+                       "professor":cleanDictionary["professor"],
+                       "time": "",
+                       "location": "",
+                       "distReqAreas":"",
+                       "term":cleanDictionary["term"],
+                       "description":cleanDictionary["description"],
+                       "instructorPermissionRequired":cleanDictionary["instructorPermissionRequired"],
+                       "departmentPermissionRequired":False,
+                       "readingPeriod":False,
+                       "classRating":0.0,
+                       "professorRating":0.0,
+                       "workRating":0.0,
+                       "courseNum":""
+                        }
+
+    #inputing more complicated fields into finalDictionary that need changing from cleanDictionary
+
+    #time and location
+    temp = cleanDictionary["timeLocation"].split()
+    if len(temp)==2:
+        finalDictionary["time"] = temp[0] + " " + temp[1]
+    elif len(temp)>2:
+        finalDictionary["time"] = temp[0] + " " + temp[1]
+        for i in range(2,len(temp)-1):
+            finalDictionary["location"] = finalDictionary["location"] + temp[i] + " "
+        finalDictionary["location"] = finalDictionary["location"] + temp[len(temp)-1]
+        #haven't dealt with the case where a course just has a location and no time, but this seems unlikely
+
+    #distReqAreas
+    if cleanDictionary["Skills"]!="" and cleanDictionary["Areas"]!="":
+        finalDictionary["distReqAreas"] = cleanDictionary["Skills"] + ", " + cleanDictionary["Areas"]
+    elif cleanDictionary["Skills"]=="":
+        finalDictionary["distReqAreas"] = cleanDictionary["Areas"]
+    elif cleanDictionary["Areas"]=="":
+        finalDictionary["distReqAreas"] = cleanDictionary["Skills"]
+
+    #departmentPermisionRequired
+    if cleanDictionary["departmentPermissionRequired"] != "":
+        finalDictionary["departmentPermissionRequired"] = True
+
+    #readingPeriod
+    if cleanDictionary["readingPeriod"] != "":
+        finalDictionary["readingPeriod"] = True
+
+    #courseNum
+    temp2 = cleanDictionary["CourseNumber"].split()
+    finalDictionary["courseNum"] = cleanDictionary["Department"] + " " + temp2[0]+ " " +temp2[1]
+
+
+    return finalDictionary

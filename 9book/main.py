@@ -25,6 +25,8 @@ class Course(ndb.Model):
     professorRating = ndb.FloatProperty()
     workRating = ndb.FloatProperty()
 
+    OCInumber = ndb.IntegerProperty()
+
     
 
 class JSONHandler(webapp2.RequestHandler):
@@ -32,11 +34,11 @@ class JSONHandler(webapp2.RequestHandler):
         courses = ndb.gql("SELECT * FROM Course")
         coursesjson = {"courses": []}
         for course in courses:
-            coursesjson.append({"title": course.title,
+            coursesjson["courses"].append({"title": course.title,
                                 "professor": course.professor,
                                 "time": course.time,
                                 "location": course.location,
-                                "distReqAreas": course.disReqAreas,
+                                "distReqAreas": course.distReqAreas,
                                 "term": course.term,
                                 "description": course.description,
                                 "instructorPermissionRequired": course.instructorPermissionRequired,
@@ -45,7 +47,8 @@ class JSONHandler(webapp2.RequestHandler):
                                 "classRating": course.classRating,
                                 "professorRating": course.professorRating,
                                 "workRating": course.workRating,
-                                "courseNum": course.courseNum})
+                                "courseNum": course.courseNum,
+                                "OCInumber": course.OCInumber})
 
         self.response.write(json.dumps(coursesjson))
 
@@ -53,8 +56,9 @@ class JSONHandler(webapp2.RequestHandler):
 
 class FetchCoursesHandler(webapp2.RequestHandler):
     def get(self):
+
         for i in range (20001, 30000):
-          courseText = OCIScraper.courseNumberTest(i)
+          courseText = OCIScraper.courseNumberTest(i,201501)
           if courseText:
             courseInfoDict = OCIScraper.parseCourseText(courseText)
             c = Course(title = courseInfoDict["courseName"],
@@ -70,8 +74,11 @@ class FetchCoursesHandler(webapp2.RequestHandler):
                        classRating = courseInfoDict["classRating"],
                        professorRating = courseInfoDict["professorRating"],
                        workRating = courseInfoDict["workRating"],
-                       courseNum = courseInfoDict["courseNum"])
+                       courseNum = courseInfoDict["courseNum"],
+                       OCInumber = i)
             c.put()
+
+
 
 
 app = webapp2.WSGIApplication([
