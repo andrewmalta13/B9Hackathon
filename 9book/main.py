@@ -1,6 +1,7 @@
 import webapp2
 import json
 import OCIScraper
+import logging
 
 from google.appengine.ext import ndb
 
@@ -26,6 +27,7 @@ class Course(ndb.Model):
     workRating = ndb.FloatProperty()
 
     OCInumber = ndb.IntegerProperty()
+
 
     
 
@@ -56,11 +58,12 @@ class JSONHandler(webapp2.RequestHandler):
 
 class FetchCoursesHandler(webapp2.RequestHandler):
     def get(self):
+        for i in range (20001, 25000):
+          courseText = OCIScraper.courseNumberTest(i, 201501)
 
-        for i in range (20001, 30000):
-          courseText = OCIScraper.courseNumberTest(i,201501)
           if courseText:
             courseInfoDict = OCIScraper.parseCourseText(courseText)
+            oci = i
             c = Course(title = courseInfoDict["courseName"],
                        professor = courseInfoDict["professor"],
                        time = courseInfoDict["time"],
@@ -75,8 +78,12 @@ class FetchCoursesHandler(webapp2.RequestHandler):
                        professorRating = courseInfoDict["professorRating"],
                        workRating = courseInfoDict["workRating"],
                        courseNum = courseInfoDict["courseNum"],
-                       OCInumber = i)
-            c.put()
+                       OCInumber = oci,
+                       id = str(oci))
+            
+            if Course.get_by_id(str(oci)) is None:
+              c.put()
+              logging.info(str(i))
 
 
 
