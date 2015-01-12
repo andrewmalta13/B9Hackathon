@@ -20,7 +20,23 @@ public class ImageStats extends AsyncTask<Void, Void, Double> {
 		url = str;
 	}
 	
-    
+    public static double[] getStats(int ociNum, int semesterNum)
+    {
+    	try {
+    	URL url = new URL(URLgenerator.generateRecUrl(ociNum, semesterNum));
+    	HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+    	connection.setDoInput(true);
+    	connection.connect();
+
+    	double rec1 = getStats(URLgenerator.generateEvalUrl1(ociNum, semesterNum));
+    	double rec2 = getStats(URLgenerator.generateEvalUrl1(ociNum, semesterNum));
+    	
+    	double[] r = {rec1, rec2};
+    	return r;
+    	} catch (Exception e){
+    		return null;
+    	}
+    }
 	public static double getStats(String url)
 	{
 		
@@ -48,7 +64,6 @@ public class ImageStats extends AsyncTask<Void, Void, Double> {
 	
 	public static Bitmap getBitmapFromURL(String src) {
 	    try {
-	    	Log.d("debug", "we got here.");
 	        URL url = new URL(src);
 	        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 	        connection.setDoInput(true);
