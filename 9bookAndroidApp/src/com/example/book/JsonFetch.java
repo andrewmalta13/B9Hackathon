@@ -1,6 +1,5 @@
 package com.example.book;
 
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -44,7 +43,7 @@ public class JsonFetch extends AsyncTask<Void, Void, String>{
 	
 	@Override
     protected void onPostExecute(String data) {
-		//do something with HTTP GET data.
+		((CoursesFragment)parentFragment).generateCourses(data);
 	}
 		
 }

@@ -66,9 +66,9 @@ public class ImageStats extends AsyncTask<Void, Void, Double> {
 		return getStats(url);
 	}
 	
-	 @Override
-     protected void onPostExecute(Double data) {
-         Log.d("result", "" + data);
-     }
+	@Override
+    protected void onPostExecute(Double data) {
+        Log.d("result", "" + data);
+    }
 	
 }

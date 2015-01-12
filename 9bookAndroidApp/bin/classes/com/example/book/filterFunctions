@@ -1,0 +1,156 @@
+    public ArrayList<Course> findAreas(ArrayList<Course> classList, String area)
+    {
+        List<Course> areaCourses = new ArrayList<Course>;
+
+        for (int i=0; i<classList.size(); i++)
+        {
+            if (classList.get(i).getDistReqs().contains(area))
+            {
+                areaCourses.add(classList.get(i));
+            }
+
+        }
+
+        return areaCourses;
+    }
+
+    public ArrayList<course> findTitle(ArrayList<course> classList, String title)
+    {
+        List<Course> titleCourses = new ArrayList<Course>;
+
+        for (int i=0; i<classList.size(); i++)
+        {
+            if (classList.get(i).getTitle().contains(title))
+            {
+                titleCourses.add(classList.get(i));
+            }
+
+        }
+
+        return titleCourse;
+    }
+
+    public ArrayList<course> findTerm(ArrayList<course> classList, String term)
+    {
+        List<Course> termCourses = new ArrayList<Course>;
+
+        for (int i=0; i<classList.size(); i++)
+        {
+            if (classList.get(i).getTerm().contains(term))
+            {
+                termCourses.add(classList.get(i));
+            }
+
+        }
+
+        return termCourse;
+    }
+
+    public ArrayList<course> sortClassRating(ArrayList<Course> classList)
+    {
+        List<Course> classSorted = new ArrayList<Course>;
+        classSorted = Collections.sort(classList, classCompare());
+
+        return classSorted;
+    }
+
+    public class classCompare implements Comparator<Recipe> 
+    {
+        public int compare(course1, course2)
+        {
+            // write comparison logic here like below , it's just a sample
+            return course1.getClassRating().compareTo(course2.getClassRating());
+        }
+    }
+
+    public ArrayList<course> sortProfRating(ArrayList<Course> classList)
+    {
+        List<Course> profSorted = new ArrayList<Course>;
+        profSorted = Collections.sort(classList, profCompare());
+
+        return profSorted;
+    }
+
+    public class profCompare implements Comparator<Recipe> 
+    {
+        public int compare(course1, course2)
+        {
+            // write comparison logic here like below , it's just a sample
+            return course1.getProfRating().compareTo(course2.getProfRating());
+        }
+    }
+
+    public ArrayList<course> sortClassRating(ArrayList<Course> classList)
+    {
+        List<Course> classSorted = new ArrayList<Course>;
+        classSorted = Collections.sort(classList, classCompare());
+
+        return classSorted;
+    }
+
+    public class classCompare implements Comparator<Recipe> 
+    {
+        public int compare(course1, course2)
+        {
+            // write comparison logic here like below , it's just a sample
+            return course1.getClassRating().compareTo(course2.getClassRating());
+        }
+    }
+
+
+    public ArrayList<course> findIntersection(ArrayList<course> classList1, ArrayList<course> classList2)
+    {
+        List<Course> intersection = new ArrayList<Course>;
+
+        for (int i=0; i<classList1.size(); i++)
+        {
+            if (classList2.contains(classList1.get(i)))
+            {
+                intersection.add(classList1.get(i));
+            }
+        }
+
+        return intersection;
+    }
+
+    public ArrayList findUnion(ArrayList<course> classList1, ArrayList<course> classList2)
+    {
+        List<Course> union = new ArrayList<Course>;
+
+        for (int i=0; i<classList1.size(); i++)
+        {
+            union.add(classList1.get(i));
+        }
+
+        for (int j=0; j<classList2.size(); j++)
+        {
+            union.add(classList2.get(j));
+        }
+
+        return union;
+    }
+
+    public ArrayList<course> multiIntersections(ArrayList<course>... args)
+    {
+        List<Course> multiIntersect = new ArrayList<Course>;
+        multipleIntersect.addall(args[0]);
+
+        for (ArrayList<course> arg: args)
+        {
+            multiIntersect = findIntersect(multiIntersect,arg);
+        }
+
+        return multiIntersect;
+    }
+
+    public ArrayList<course> multiUnion(ArrayList<course>... args)
+    {
+        List<Course> multiUnion = new ArrayList<Course>;
+        
+        for (ArrayList arg: args)
+        {
+            multiUnion = findUnion(multiUnion,arg);
+        }
+
+        return multiUnion;
+    }

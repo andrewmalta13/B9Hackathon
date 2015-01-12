@@ -16,13 +16,16 @@ public class Course {
     private Boolean departmentPermissionRequired;
     private Boolean readingPeriod;
     
-    private float classRating;
-    private float professorRating;
-    private float workRating;
+    private int OCInumber;
+    
+    private double classRating;
+    private double professorRating;
+    private double workRating;
     
     
     public Course(String titl, String prof, String t, String loc, String distReq, String ter, String descr,
-    		      String instPerm, String fDesc, String cn, Boolean deptPerm, Boolean rp, float clsRt, float profRt, float workRt){
+    		      String instPerm, String fDesc, String cn, Boolean deptPerm, Boolean rp, int OCI,
+    		      double clsRt, double profRt, double workRt){
     	title = titl;
     	professor = prof;
     	time = t;
@@ -35,6 +38,7 @@ public class Course {
     	departmentPermissionRequired = deptPerm;
     	readingPeriod = rp;
     	classRating = clsRt;
+    	OCInumber = OCI;
     	professorRating = profRt;
     	workRating = workRt;
     	courseNum = cn;
@@ -77,14 +81,17 @@ public class Course {
     public Boolean getReadingPeriod(){
     	return readingPeriod;
     }
-    public float getClassRating(){
+    public double getClassRating(){
     	return classRating;
     }
-    public float getProfRating(){
+    public double getProfRating(){
     	return professorRating;
     }
-    public float getWorkRating(){
+    public double getWorkRating(){
     	return workRating;
+    }
+    public int getOCINumber(){
+    	return OCInumber;
     }
     
     
@@ -134,6 +141,7 @@ public class Course {
     public void setWorkRating(float f){
     	workRating = f;
     }
+
     
    
 }
