@@ -14,10 +14,12 @@ import android.util.Log;
 
 
 public class ImageStats extends AsyncTask<Void, Void, Double> {
-	private String url = "";
+	private int ociNum;
+	private int semesterNum;
 	
-	public ImageStats(String str){
-		url = str;
+	public ImageStats(int ociNum, int semesterNum){
+		this.ociNum=ociNum;
+		this.semesterNum=semesterNum;
 	}
 	
     public static double[] getStats(int ociNum, int semesterNum)
@@ -78,12 +80,12 @@ public class ImageStats extends AsyncTask<Void, Void, Double> {
 
 	@Override
 	protected Double doInBackground(Void... params) {
-		return getStats(url);
+		return getStats(ociNum, semesterNum)[0];
 	}
 	
-	@Override
-    protected void onPostExecute(Double data) {
-        Log.d("result", "" + data);
-    }
+	 @Override
+     protected void onPostExecute(Double data) {
+         Log.d("result", "" + data);
+     }
 	
 }

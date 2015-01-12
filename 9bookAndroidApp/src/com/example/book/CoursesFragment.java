@@ -15,8 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
-
 public class CoursesFragment extends ListFragment{
 	ArrayList<Course> courses = new ArrayList<Course>();
 	CoursesAdapter adapter;
@@ -32,8 +30,6 @@ public class CoursesFragment extends ListFragment{
 	public void onActivityCreated(Bundle savedInstanceState) {
 	    super.onActivityCreated(savedInstanceState);
 	   
-	    
-	    
 	    if(courses.isEmpty()){
             JsonFetch parser = new JsonFetch(this, "http://9book.appspot.com/courses.json");
             parser.execute();        
