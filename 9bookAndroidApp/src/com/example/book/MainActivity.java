@@ -40,7 +40,7 @@ public class MainActivity extends Activity
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                .replace(R.id.container, new CoursesFragment())
                 .commit();
     }
 

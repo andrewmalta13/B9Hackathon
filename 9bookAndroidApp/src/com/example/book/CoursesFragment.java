@@ -29,11 +29,20 @@ public class CoursesFragment extends ListFragment{
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 	    super.onActivityCreated(savedInstanceState);
-	   
+	    
+	    /* commented out because json is not serving currently
 	    if(courses.isEmpty()){
-            JsonFetch parser = new JsonFetch(this, "http://9book.appspot.com/courses.json");
+            JsonFetch parser = new JsonFetch(this, "http://ninebookjson.appspot.com/courses.json");
             parser.execute();        
-	    }
+	    }*/
+	    
+	    Course c1 = new Course("This is test course!","","","","","","","","","",false,false,20001,0.0,0.0,0.0);
+	    Course c2 = new Course("This is another test course!","","","","","","","","","",false,false,20001,0.0,0.0,0.0);
+	    Course c3 = new Course("Gotta have at least 3!","","","","","","","","","",false,false,20001,0.0,0.0,0.0);
+	    
+	    courses.add(c1);
+	    courses.add(c2);
+	    courses.add(c3);
 	    
 	    adapter = new CoursesAdapter(getActivity(), courses);
 	    setListAdapter(adapter);   
