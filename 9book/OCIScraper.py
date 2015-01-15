@@ -22,7 +22,7 @@ def courseNumberTest(courseNumber,termNumber):                 #function will it
 ##Will be deleted when we know it works
 
 def parseCourseText(fullcourseinfo):
-    
+
     infoarray = fullcourseinfo.split("\n")
     list_of_items = []
     check = False
@@ -40,7 +40,8 @@ def parseCourseText(fullcourseinfo):
 
 
     list_of_possible_fields = ["Department","CourseNumber", "alternateDept","courseName","professor","timeLocation","term",
-    "departmentPermissionRequired","final","Areas","Skills","instructorPermissionRequired","readingPeriod","YCnote", "description"]
+    "departmentPermissionRequired","final","Areas","Skills","instructorPermissionRequired","readingPeriod","YCnote", "description"
+    ,"bonusField"]
 
         #list_of_items defined in try. is courseinfoarray
 
@@ -54,13 +55,14 @@ def parseCourseText(fullcourseinfo):
     #"location" :lambda item:
     "term": lambda item: item.startswith("Spring") or (item.startswith("Fall") or item.startswith("Summer")),
     "departmentPermissionRequired": lambda item: "Pre-Approval" in item,
-    "final":lambda item: "Final exam scheduled" == item or "No regular final examination" == item,
+    "final":lambda item: "Final exam scheduled" in item or "No regular final examination" in item,
     "Areas":lambda item: item.startswith("Areas"),
     "Skills": lambda item: item.startswith("Skills"),
-    "instructorPermissionRequired": lambda item: "Permission of instructor required" == item,
+    "instructorPermissionRequired": lambda item: "Permission of instructor required" in item,
     "readingPeriod": lambda item: "Meets during reading period" == item,
     "YCnote": lambda item: "YC" in item and ":" in item,
-    "description": lambda item: True
+    "description": lambda item: True,
+    "bonusField": lambda item: True
     }
 
 
@@ -78,7 +80,8 @@ def parseCourseText(fullcourseinfo):
                             "instructorPermissionRequired" : "",
                             "readingPeriod" : "",
                             "YCnote" : "",
-                            "description" : ""
+                            "description" : "",
+                            "bonusField" : ""
                         }
 
 
@@ -87,6 +90,7 @@ def parseCourseText(fullcourseinfo):
     for element in list_of_items:
         while index < (len(list_of_possible_fields)):
             #print element+ " " + list_of_possible_fields[index]
+            
             if bool_dict[list_of_possible_fields[index]](element):
                 initialDictionary[list_of_possible_fields[index]] = element
                 if list_of_possible_fields[index] != "professor":
@@ -98,21 +102,22 @@ def parseCourseText(fullcourseinfo):
             else:
                 list_of_possible_fields.remove(list_of_possible_fields[index])
                 index -= 1
+            
             index += 1
 
     cleanDictionary = {}
-
+    
     for key, value in initialDictionary.iteritems():
         cleanDictionary[key] = value.strip()
-    
+    print cleanDictionary
     finalDictionary = {"courseName":cleanDictionary["courseName"],
                        "professor":cleanDictionary["professor"],
                        "time": "",
                        "location": "",
                        "distReqAreas":"",
                        "term":cleanDictionary["term"],
-                       "description":cleanDictionary["description"],
-                       "instructorPermissionRequired":cleanDictionary["instructorPermissionRequired"],
+                       "description": "", #cleanDictionary["description"],
+                       "instructorPermissionRequired": cleanDictionary["instructorPermissionRequired"],
                        "departmentPermissionRequired":False,
                        "finalDescription":cleanDictionary["final"],
                        "readingPeriod":False,
@@ -155,5 +160,15 @@ def parseCourseText(fullcourseinfo):
     temp2 = cleanDictionary["CourseNumber"].split()
     finalDictionary["courseNum"] = cleanDictionary["Department"] + " " + temp2[0]+ " " +temp2[1]
 
+    #combine description and bonus field
+    if cleanDictionary["description"] != "" and cleanDictionary["bonusField"] != "":
+        finalDictionary["description"] =  cleanDictionary["description"] + " " + cleanDictionary["bonusField"]
+    elif cleanDictionary["description"] != "":
+        finalDictionary["description"] = cleanDictionary["description"]
+    elif cleanDictionary["bonusField"] != "":
+        finalDictionary["description"] = cleanDictionary["bonusField"]
+
 
     return finalDictionary
+
+# print parseCourseText(courseNumberTest(22422,201501)) #test code. leaving until we are sure is bug free
