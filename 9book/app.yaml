@@ -1,4 +1,4 @@
-application: 9book
+application: ninebookjson
 version: 1
 runtime: python27
 api_version: 1
@@ -9,8 +9,13 @@ handlers:
   static_files: favicon.ico
   upload: favicon\.ico
 
-- url: .*
+- url: ./
   script: main.app
+
+- url: /(.*\.json)
+  mime_type: application/json
+  static_files: static/\1
+  upload: static/(.*\.json)
 
 libraries:
 - name: webapp2
