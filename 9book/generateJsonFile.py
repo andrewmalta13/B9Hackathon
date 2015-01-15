@@ -43,6 +43,7 @@ class JSONHandler(webapp2.RequestHandler):
                                 "distReqAreas": course.distReqAreas,
                                 "term": course.term,
                                 "description": course.description,
+                                "finalDescription" : course.final,
                                 "instructorPermissionRequired": course.instructorPermissionRequired,
                                 "departmentPermissionRequired": course.departmentPermissionRequired,
                                 "readingPeriod":course.readingPeriod,
@@ -71,6 +72,7 @@ class FetchCoursesHandler(webapp2.RequestHandler):
                        distReqAreas = courseInfoDict["distReqAreas"],
                        term = courseInfoDict["term"],
                        description = courseInfoDict["description"],
+                       final = courseInfoDict["finalDescription"],
                        instructorPermissionRequired = courseInfoDict["instructorPermissionRequired"],
                        departmentPermissionRequired = courseInfoDict["departmentPermissionRequired"],
                        readingPeriod = courseInfoDict["readingPeriod"],
@@ -89,6 +91,6 @@ class FetchCoursesHandler(webapp2.RequestHandler):
 
 
 app = webapp2.WSGIApplication([
-    ('/courses.json', JSONHandler),
+    ('/courses', JSONHandler),
     ('/fetch', FetchCoursesHandler)
 ], debug=True)
