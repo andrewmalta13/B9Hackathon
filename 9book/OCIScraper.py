@@ -114,6 +114,7 @@ def parseCourseText(fullcourseinfo):
                        "description":cleanDictionary["description"],
                        "instructorPermissionRequired":cleanDictionary["instructorPermissionRequired"],
                        "departmentPermissionRequired":False,
+                       "finalDescription":cleanDictionary["final"],
                        "readingPeriod":False,
                        "classRating":0.0,
                        "professorRating":0.0,

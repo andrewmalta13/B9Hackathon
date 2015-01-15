@@ -1,0 +1,27 @@
+In general, these functions could always be used in any field:
+	!		=		not
+	&		=		and
+	|		=		or
+	* 		=		wildcard (if a whole field is left blank it is assumed to be a wildcard)
+	()		=		for order of operations grouping
+	\		=		for starting a tag (see list of possible tags below)
+	<		=		less than or equal to
+	>		=		greater than or equal to
+
+Field								Tag							Example formats
+
+"title"								\title			=			*shakespeare*
+"professor"							\prof			=			!FrancisRobinson		AaronDollar|CoreyOhern
+"time"								\time			=			MWF			MW|TTh		!F			>10:00		>10:00&<2:00
+"location"							\loc			=			!SciHill			OldCamp		
+"distReqAreas"						\disReq			=			HU			HU|SC		HU&SC		WR&!HU		WR&!(HU|SO)
+"term"								\term			=			Sp15		Su14		Fa15
+"description"						\desc			=			*shakespeare*
+"instructorPermissionRequired"		\instPerm		=			
+"departmentPermissionRequired"		\deptPerm		=			True		False
+"readingPeriod"						\read			=			True		False
+"classRating"						\classR			=			>3			4*
+"professorRating"					\profR			=			>4
+"workRating"						\workR			=			<3
+"courseNum"							\num			=			MENG185	MENG*
+"OCInumber"							\OCI			=			<we might as well keep this feature in the search for our own testing purposes, but we don't need to put in functionality for the average user>
