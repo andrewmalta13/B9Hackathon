@@ -25,8 +25,12 @@ public class CoursesAdapter extends ArrayAdapter<Course>{
 		
 		Course course = (Course) getItem(position);
 		
+		TextView courseNumberText = (TextView) view.findViewById(R.id.courseNumber);
+		courseNumberText.setText(course.getCourseNum());
+		
 		TextView courseNameText = (TextView) view.findViewById(R.id.courseName);
 		courseNameText.setText(course.getTitle());
+		
 		
 		return view;
 	}

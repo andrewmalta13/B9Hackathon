@@ -18,6 +18,12 @@ import android.view.ViewGroup;
 public class CoursesFragment extends ListFragment{
 	ArrayList<Course> courses = new ArrayList<Course>();
 	CoursesAdapter adapter;
+	int semesterCode;
+	
+	public CoursesFragment(int semCode){
+		super();
+		semesterCode = semCode; 
+	}
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,7 +37,8 @@ public class CoursesFragment extends ListFragment{
 	    super.onActivityCreated(savedInstanceState);
 	   
 	    if(courses.isEmpty()){
-            JsonFetch parser = new JsonFetch(this, "http://ninebookjson.appspot.com/201501.json");
+	    	Log.d("hello", "http://ninebookjson.appspot.com/" + semesterCode +".json");
+            JsonFetch parser = new JsonFetch(this, "http://ninebookjson.appspot.com/"+ semesterCode + ".json");
             parser.execute();        
 	    }
 	    

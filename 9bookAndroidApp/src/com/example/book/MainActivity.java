@@ -17,13 +17,17 @@ public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
-
     private CharSequence mTitle;
+    private int semesterCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        //eventually find a way of prompting user input to parse the correct semester.
+        semesterCode = 201501; //this value is being passed when we create a CoursesFragment to 
+                               //determine the semester of classes to parse from ninebookjson.
         
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -40,7 +44,7 @@ public class MainActivity extends Activity
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, new CoursesFragment())
+                .replace(R.id.container, new CoursesFragment(201501))
                 .commit();
     }
 
