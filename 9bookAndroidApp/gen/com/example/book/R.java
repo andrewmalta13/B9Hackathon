@@ -33,23 +33,25 @@ public final class R {
         public static final int ic_launcher=0x7f020002;
     }
     public static final class id {
-        public static final int Rating1=0x7f08000a;
-        public static final int Rating2=0x7f08000b;
-        public static final int Rating3=0x7f08000c;
-        public static final int action_example=0x7f08000f;
-        public static final int action_settings=0x7f08000e;
+        public static final int action_example=0x7f080011;
+        public static final int action_settings=0x7f080010;
         public static final int cas_login=0x7f080003;
         public static final int container=0x7f080001;
-        public static final int courseName=0x7f080004;
-        public static final int courseNumber=0x7f080008;
-        public static final int description=0x7f080009;
-        public static final int distReqs=0x7f080007;
+        public static final int courseName=0x7f08000e;
+        public static final int courseNumber=0x7f08000d;
         public static final int drawer_layout=0x7f080000;
+        public static final int imageView1=0x7f08000a;
+        public static final int imageView2=0x7f08000b;
+        public static final int imageView3=0x7f08000c;
         public static final int navigation_drawer=0x7f080002;
-        public static final int place=0x7f080006;
-        public static final int section_label=0x7f08000d;
-        public static final int time=0x7f080005;
-        public static final int update_course_list=0x7f080010;
+        public static final int section_label=0x7f08000f;
+        public static final int textView1=0x7f080004;
+        public static final int textView2=0x7f080005;
+        public static final int textView3=0x7f080006;
+        public static final int textView4=0x7f080007;
+        public static final int textView5=0x7f080008;
+        public static final int textView6=0x7f080009;
+        public static final int update_course_list=0x7f080012;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
