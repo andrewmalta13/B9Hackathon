@@ -31,7 +31,6 @@ public class CoursesAdapter extends ArrayAdapter<Course>{
 		TextView courseNameText = (TextView) view.findViewById(R.id.courseName);
 		courseNameText.setText(course.getTitle());
 		
-		
 		return view;
 	}
 	

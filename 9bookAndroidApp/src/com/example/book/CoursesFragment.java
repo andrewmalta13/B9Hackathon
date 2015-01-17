@@ -8,12 +8,19 @@ import org.json.JSONObject;
 
 
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.ListFragment;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 
 public class CoursesFragment extends ListFragment{
 	ArrayList<Course> courses = new ArrayList<Course>();
@@ -29,7 +36,24 @@ public class CoursesFragment extends ListFragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
 		 View rootView = inflater.inflate(R.layout.courses_list_fragment, container, false);
-		return rootView;
+		 ListView listView = (ListView) rootView.findViewById(android.R.id.list);
+		 listView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				
+				Log.e("here", "here");
+				Course courseSelected =(Course) (parent.getItemAtPosition(position));
+				CoursePageFragment page = new CoursePageFragment(courseSelected);
+				
+				FragmentManager fm = getActivity().getFragmentManager();
+				FragmentTransaction ft = fm.beginTransaction();
+				ft.replace(R.id.container, page);
+				ft.commit();
+			}
+			}); 
+
+		 return rootView;
 	}
 	
 	@Override
@@ -56,6 +80,9 @@ public class CoursesFragment extends ListFragment{
 	    adapter = new CoursesAdapter(getActivity(), courses);
 	    setListAdapter(adapter);   
 	}
+	
+	
+	
 	
 	public void generateCourses(String json){
 		ArrayList<Course> courseList = new ArrayList<Course>();
