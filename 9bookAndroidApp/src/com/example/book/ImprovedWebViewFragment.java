@@ -86,11 +86,13 @@ public class ImprovedWebViewFragment extends Fragment {
     public void onDestroyView() {
     	CookieManager cookieManager = CookieManager.getInstance();
     	cookieManager.setAcceptCookie(true);
-//        String cookies = cookieManager.getCookie("students.yale.edu/oci")
-//    		cookieManager.getCookie("students.yale.edu/viewevals") +";"+
-//       		cookieManager.getCookie("students.yale.edu/evalsearch"));
-//        Log.d("COOKIES", cookies);
-//        //ImageStats i = new ImageStats(12745, 201403, cookieManager.getCookie("http://www.yale.edu"));
+        Log.d("1", cookieManager.getCookie("faculty.yale.edu/viewevals"));
+        Log.d("2", cookieManager.getCookie("secure.its.yale.edu/cas"));
+        Log.d("3", cookieManager.getCookie("students.its.yale.edu/oci"));
+        Log.d("4", cookieManager.getCookie("students.its.yale.edu/viewevals"));
+        Log.d("5", cookieManager.getCookie("students.its.yale.edu/evalsearch"));
+        Log.d("6", cookieManager.getCookie("www.yale.edu"));
+    	ImageStats i = new ImageStats(12745, 201403, cookieManager.getCookie("http://www.yale.edu"));
         
         mIsWebViewAvailable = false;
         super.onDestroyView();
