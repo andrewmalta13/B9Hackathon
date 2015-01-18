@@ -1,6 +1,11 @@
 package com.example.book;
 
 import android.app.Fragment;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Picture;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,9 +41,9 @@ public class ImprovedWebViewFragment extends Fragment {
         }
         mWebView = new WebView(getActivity());
         mWebView.setWebViewClient(new WebViewClient());
-    	getWebView().getSettings().setJavaScriptEnabled(true);
+    	
         mWebView.loadUrl(mUrl);
-        
+        mWebView.loadUrl(URLgenerator.generateEvalUrl1(12745, 201403));
         mIsWebViewAvailable = true;
         return mWebView;
     }
@@ -49,6 +54,7 @@ public class ImprovedWebViewFragment extends Fragment {
      */
     public void loadUrl(String url) {
         if (mIsWebViewAvailable){
+        	getWebView().getSettings().setJavaScriptEnabled(true);
         	getWebView().loadUrl(mUrl = url);
         }
         else Log.w("ImprovedWebViewFragment", "WebView cannot be found. Check the view and fragment have been loaded.");
@@ -78,13 +84,14 @@ public class ImprovedWebViewFragment extends Fragment {
      */
     @Override
     public void onDestroyView() {
-    	loadUrl("https://students.yale.edu/evalsearch");
     	CookieManager cookieManager = CookieManager.getInstance();
-        String cookies = cookieManager.getCookie("yale.edu")+";"+
-        		cookieManager.getCookie("students.yale.edu")+";"+
-        		cookieManager.getCookie("secure.its.yale.edu")+";"+
-        		cookieManager.getCookie("faculty.yale.edu");
-        Log.d("COOKIES", cookies);
+    	cookieManager.setAcceptCookie(true);
+//        String cookies = cookieManager.getCookie("students.yale.edu/oci")
+//    		cookieManager.getCookie("students.yale.edu/viewevals") +";"+
+//       		cookieManager.getCookie("students.yale.edu/evalsearch"));
+//        Log.d("COOKIES", cookies);
+//        //ImageStats i = new ImageStats(12745, 201403, cookieManager.getCookie("http://www.yale.edu"));
+        
         mIsWebViewAvailable = false;
         super.onDestroyView();
     }

@@ -16,22 +16,25 @@ import android.util.Log;
 public class ImageStats extends AsyncTask<Void, Void, Double> {
 	private int ociNum;
 	private int semesterNum;
+	private String cookie;
 	
-	public ImageStats(int ociNum, int semesterNum){
+	public ImageStats(int ociNum, int semesterNum, String cookie){
 		this.ociNum=ociNum;
 		this.semesterNum=semesterNum;
+		this.cookie=cookie;
 	}
 	
-    public static double[] getStats(int ociNum, int semesterNum)
+    public static double[] getStats(int ociNum, int semesterNum, String cookie)
     {
     	try {
     	URL url = new URL(URLgenerator.generateRecUrl(ociNum, semesterNum));
     	HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+    	connection.setRequestProperty("Cookie", cookie);
     	connection.setDoInput(true);
     	connection.connect();
 
-    	double rec1 = getStats(URLgenerator.generateEvalUrl1(ociNum, semesterNum));
-    	double rec2 = getStats(URLgenerator.generateEvalUrl1(ociNum, semesterNum));
+    	double rec1 = getStats(URLgenerator.generateEvalUrl1(ociNum, semesterNum), cookie);
+    	double rec2 = getStats(URLgenerator.generateEvalUrl1(ociNum, semesterNum), cookie);
     	
     	double[] r = {rec1, rec2};
     	return r;
@@ -39,10 +42,10 @@ public class ImageStats extends AsyncTask<Void, Void, Double> {
     		return null;
     	}
     }
-	public static double getStats(String url)
+	public static double getStats(String url, String cookie)
 	{
 		
-		Bitmap image= getBitmapFromURL(url);
+		Bitmap image= getBitmapFromURL(url, cookie);
 		
 		int[] xlocs={90,150,210,270,330};
 		int yloc=248;
@@ -64,10 +67,11 @@ public class ImageStats extends AsyncTask<Void, Void, Double> {
 		return (total/(float)num);
 	}
 	
-	public static Bitmap getBitmapFromURL(String src) {
+	public static Bitmap getBitmapFromURL(String src, String cookie) {
 	    try {
 	        URL url = new URL(src);
 	        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+	        connection.setRequestProperty("Cookie", cookie);
 	        connection.setDoInput(true);
 	        connection.connect();
 	        InputStream input = connection.getInputStream();
@@ -80,7 +84,7 @@ public class ImageStats extends AsyncTask<Void, Void, Double> {
 
 	@Override
 	protected Double doInBackground(Void... params) {
-		return getStats(ociNum, semesterNum)[0];
+		return getStats(ociNum, semesterNum, cookie)[0];
 	}
 	
 	 @Override
