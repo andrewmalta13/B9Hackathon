@@ -13,6 +13,7 @@ import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,7 +26,6 @@ import android.widget.ListView;
 public class CoursesFragment extends ListFragment{
 	private ArrayList<Course> courses = new ArrayList<Course>();
 	private CoursesAdapter adapter;
-	private ListView courseListView;
 	int semesterCode;
 	
 	public CoursesFragment(int semCode){
@@ -37,7 +37,6 @@ public class CoursesFragment extends ListFragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
 		 View rootView = inflater.inflate(R.layout.courses_list_fragment, container, false);
-		 courseListView = (ListView) rootView.findViewById(android.R.id.list);
 		 return rootView;
 	}
 	
@@ -71,14 +70,25 @@ public class CoursesFragment extends ListFragment{
 	
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		Log.e("here", "here");
 		Course courseSelected =(Course) l.getAdapter().getItem(position);
-		CoursePageFragment page = new CoursePageFragment(courseSelected);
-			
+		Intent courseIntent = new Intent(this.getActivity(), CoursePageActivity.class);
+		
+	    courseIntent.putExtra("courseName", courseSelected.getTitle());
+		courseIntent.putExtra("courseTime", courseSelected.getTime());
+		courseIntent.putExtra("courseLocation", courseSelected.getLocation());
+		courseIntent.putExtra("courseDisReqst", courseSelected.getDistReqs());
+		courseIntent.putExtra("courseNumber", courseSelected.getCourseNum());
+		courseIntent.putExtra("courseDescription", courseSelected.getDescription());
+		
+		this.getActivity().startActivity(courseIntent);
+		
+		/*
+		CoursePageFragment page = new CoursePageFragment(courseSelected);	
 		FragmentManager fm = getActivity().getFragmentManager();
 		FragmentTransaction ft = fm.beginTransaction();
 		ft.replace(R.id.container, page);
-		ft.commit();
+		
+		ft.commit(); */
 	}
 	
 	
