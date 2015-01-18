@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.CookieManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -35,6 +36,7 @@ public class ImprovedWebViewFragment extends Fragment {
         }
         mWebView = new WebView(getActivity());
         mWebView.setWebViewClient(new WebViewClient());
+    	getWebView().getSettings().setJavaScriptEnabled(true);
         mWebView.loadUrl(mUrl);
         
         mIsWebViewAvailable = true;
@@ -48,7 +50,6 @@ public class ImprovedWebViewFragment extends Fragment {
     public void loadUrl(String url) {
         if (mIsWebViewAvailable){
         	getWebView().loadUrl(mUrl = url);
-        	getWebView().getSettings().setJavaScriptEnabled(true);
         }
         else Log.w("ImprovedWebViewFragment", "WebView cannot be found. Check the view and fragment have been loaded.");
     }
@@ -77,6 +78,13 @@ public class ImprovedWebViewFragment extends Fragment {
      */
     @Override
     public void onDestroyView() {
+    	loadUrl("https://students.yale.edu/evalsearch");
+    	CookieManager cookieManager = CookieManager.getInstance();
+        String cookies = cookieManager.getCookie("yale.edu")+";"+
+        		cookieManager.getCookie("students.yale.edu")+";"+
+        		cookieManager.getCookie("secure.its.yale.edu")+";"+
+        		cookieManager.getCookie("faculty.yale.edu");
+        Log.d("COOKIES", cookies);
         mIsWebViewAvailable = false;
         super.onDestroyView();
     }

@@ -103,7 +103,7 @@ public class MainActivity extends Activity
     private void updateCourseList() {
     	FragmentManager fragmentManager = getFragmentManager();
     	//BrowserFragment cas = new BrowserFragment();
-    	ImprovedWebViewFragment casLoginView = new ImprovedWebViewFragment("https://faculty.yale.edu/viewevals/Search/Summary?crn=21260&tC=201201");
+    	ImprovedWebViewFragment casLoginView = new ImprovedWebViewFragment("https://secure.its.yale.edu/cas/login");
  	    
     	
         fragmentManager.beginTransaction()
