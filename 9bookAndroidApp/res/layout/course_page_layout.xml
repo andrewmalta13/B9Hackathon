@@ -36,12 +36,12 @@
         android:text="time" />
 
     <TextView
-        android:id="@+id/place"
+        android:id="@+id/location"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/courseName"
         android:layout_toRightOf="@+id/time"
-        android:text="place" />
+        android:text="location" />
 
     <TextView
         android:id="@+id/distReqs"

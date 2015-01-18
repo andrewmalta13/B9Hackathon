@@ -23,8 +23,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 public class CoursesFragment extends ListFragment{
-	ArrayList<Course> courses = new ArrayList<Course>();
-	CoursesAdapter adapter;
+	private ArrayList<Course> courses = new ArrayList<Course>();
+	private CoursesAdapter adapter;
+	private ListView courseListView;
 	int semesterCode;
 	
 	public CoursesFragment(int semCode){
@@ -36,36 +37,22 @@ public class CoursesFragment extends ListFragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
 		 View rootView = inflater.inflate(R.layout.courses_list_fragment, container, false);
-		 ListView listView = (ListView) rootView.findViewById(android.R.id.list);
-		 listView.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				
-				Log.e("here", "here");
-				Course courseSelected =(Course) (parent.getItemAtPosition(position));
-				CoursePageFragment page = new CoursePageFragment(courseSelected);
-				
-				FragmentManager fm = getActivity().getFragmentManager();
-				FragmentTransaction ft = fm.beginTransaction();
-				ft.replace(R.id.container, page);
-				ft.commit();
-			}
-			}); 
-
+		 courseListView = (ListView) rootView.findViewById(android.R.id.list);
 		 return rootView;
 	}
+	
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 	    super.onActivityCreated(savedInstanceState);
+	    
 	   
 	    if(courses.isEmpty()){
 	    	Log.d("hello", "http://ninebookjson.appspot.com/" + semesterCode +".json");
             JsonFetch parser = new JsonFetch(this, "http://ninebookjson.appspot.com/"+ semesterCode + ".json");
             parser.execute();        
 	    }
-	    
+	   
 	    
 	    /* offline testing courses to use. Anyone feel free to make these more complete. Yes YOU!
 	    Course c1 = new Course("This is test course!","","","","","","","","","",false,false,20001,0.0,0.0,0.0);
@@ -81,6 +68,18 @@ public class CoursesFragment extends ListFragment{
 	    setListAdapter(adapter);   
 	}
 	
+	
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		Log.e("here", "here");
+		Course courseSelected =(Course) l.getAdapter().getItem(position);
+		CoursePageFragment page = new CoursePageFragment(courseSelected);
+			
+		FragmentManager fm = getActivity().getFragmentManager();
+		FragmentTransaction ft = fm.beginTransaction();
+		ft.replace(R.id.container, page);
+		ft.commit();
+	}
 	
 	
 	

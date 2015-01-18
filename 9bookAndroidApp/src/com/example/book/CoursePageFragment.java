@@ -27,7 +27,7 @@ public class CoursePageFragment extends Fragment {
 		 TextView courseTimeView  = (TextView)rootView.findViewById(R.id.time);
 		 courseTimeView.setText(course.getTime());
 		 
-		 TextView courseLocationView  = (TextView)rootView.findViewById(R.id.place); // changed this from location in Andrew's code. Was throwing an error
+		 TextView courseLocationView  = (TextView)rootView.findViewById(R.id.location); // changed this from location in Andrew's code. Was throwing an error
 		 courseLocationView.setText(course.getLocation());
 		 
 		 TextView courseDistView  = (TextView)rootView.findViewById(R.id.distReqs);
