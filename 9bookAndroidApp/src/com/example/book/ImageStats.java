@@ -27,12 +27,6 @@ public class ImageStats extends AsyncTask<Void, Void, Double> {
     public static double[] getStats(int ociNum, int semesterNum, String cookie)
     {
     	try {
-    	URL url = new URL(URLgenerator.generateRecUrl(ociNum, semesterNum));
-    	HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-    	connection.setRequestProperty("Cookie", cookie);
-    	connection.setDoInput(true);
-    	connection.connect();
-
     	double rec1 = getStats(URLgenerator.generateEvalUrl1(ociNum, semesterNum), cookie);
     	double rec2 = getStats(URLgenerator.generateEvalUrl1(ociNum, semesterNum), cookie);
     	
