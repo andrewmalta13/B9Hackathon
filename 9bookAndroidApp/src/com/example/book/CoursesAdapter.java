@@ -14,14 +14,14 @@ import android.widget.TextView;
 
 public class CoursesAdapter extends ArrayAdapter<Course>{
 	public CoursesAdapter(Context context, ArrayList<Course> courses) {
-		super(context, R.layout.courses_row_layout, courses);
+		super(context, R.layout.rename, courses);
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
 		
-		View view = inflater.inflate(R.layout.courses_row_layout, parent, false);
+		View view = inflater.inflate(R.layout.rename, parent, false);
 		
 		Course course = (Course) getItem(position);
 		

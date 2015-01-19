@@ -48,20 +48,20 @@ public final class R {
         public static final int location=0x7f080006;
         public static final int navigation_drawer=0x7f080002;
         public static final int place=0x7f080008;
-        public static final int professorName=0x7f08000e;
-        public static final int section_label=0x7f080010;
-        public static final int testField=0x7f08000f;
+        public static final int professorName=0x7f08000f;
+        public static final int section_label=0x7f08000e;
+        public static final int testField=0x7f080010;
         public static final int time=0x7f080005;
         public static final int update_course_list=0x7f080013;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int cas_layout=0x7f030001;
-        public static final int course_page_layout=0x7f030002;
-        public static final int courses_list_fragment=0x7f030003;
-        public static final int courses_row_layout=0x7f030004;
-        public static final int fragment_main=0x7f030005;
-        public static final int fragment_navigation_drawer=0x7f030006;
+        public static final int courses_list_fragment=0x7f030002;
+        public static final int courses_row_layout=0x7f030003;
+        public static final int fragment_main=0x7f030004;
+        public static final int fragment_navigation_drawer=0x7f030005;
+        public static final int rename=0x7f030006;
     }
     public static final class menu {
         public static final int global=0x7f070000;

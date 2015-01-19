@@ -39,6 +39,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_classRating = "classRating";
     private static final String KEY_professorRating = "professorRating";
     private static final String KEY_workRating ="workRating";
+    
+    private SQLiteDatabase mDb;
  
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -52,8 +54,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + KEY_time + " TEXT" + KEY_location + "TEXT" + KEY_location
                 + "TEXT" + KEY_distReqAreas + "TEXT" + KEY_description + "TEXT" +
                 KEY_instructorPermissionRequired + "TEXT" + KEY_finalDescription + 
-                "TEXT" + KEY_courseNum + "TEXT" + KEY_departmentPermissionRequired + "BOOLEAN"
-                + KEY_readingPeriod + "BOOLEAN" + KEY_OCInumber + "INTEGER" + KEY_classRating + "FLOAT"
+                "TEXT" + KEY_courseNum + "TEXT" + KEY_departmentPermissionRequired + "INTEGER"
+                + KEY_readingPeriod + "INTEGER" + KEY_OCInumber + "INTEGER" + KEY_classRating + "FLOAT"
                  + KEY_professorRating + "FLOAT" + KEY_workRating + "FLOAT" + ")";
         db.execSQL(CREATE_COURSES_TABLE);
     }
@@ -72,12 +74,54 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	  	
     }
     
-    public Course getCourse (int OCInumber) {
-    	
+    public Course getCourse (SQLiteDatabase db, int OCInumber) {
+    	String[] tableColumns = new String[] {
+    		    "KEY_OCInumber",
+    		    "(SELECT 1 FROM TABLE_COURSES)"
+    		};
+    		String whereClause = "KEY_OCInumber = ?";
+    		String[] whereArgs = new String[] {
+    		    "" + OCInumber 
+    		};
+    		Cursor c = db.query("table1", tableColumns, whereClause, whereArgs,
+    		        null, null, null);
+    		
+    		
+    		
+    		return null; //figure out how to access a course object from a Cursor. 
+
     }
     
-    public List<Course> getAllCourses() {
+    public ArrayList<Course> getAllCourses(SQLiteDatabase db) {
+ 
+    	Cursor  cursor = db.rawQuery("select * from TABLE_COURSES",null);
+    	ArrayList<Course> courses = new ArrayList<Course>();
+    	if (cursor .moveToFirst()) {
+
+            while (cursor.isAfterLast() == false) {
+            	
+            	Course course = new Course(cursor.getString(cursor.getColumnIndex(KEY_title)),
+            			                   cursor.getString(cursor.getColumnIndex(KEY_professor)),
+            			                   cursor.getString(cursor.getColumnIndex(KEY_time)),
+            			                   cursor.getString(cursor.getColumnIndex(KEY_location)),
+            			                   cursor.getString(cursor.getColumnIndex(KEY_distReqAreas)),
+            			                   cursor.getString(cursor.getColumnIndex(KEY_term)),
+            			                   cursor.getString(cursor.getColumnIndex(KEY_description)),
+            			                   cursor.getString(cursor.getColumnIndex(KEY_instructorPermissionRequired)),
+            			                   cursor.getString(cursor.getColumnIndex(KEY_finalDescription)),
+            			                   cursor.getString(cursor.getColumnIndex(KEY_courseNum)),
+            			                   (cursor.getInt(cursor.getColumnIndex(KEY_departmentPermissionRequired)) > 0),
+            			                   (cursor.getInt(cursor.getColumnIndex(KEY_readingPeriod)) > 0),
+            			                   cursor.getInt(cursor.getColumnIndex(KEY_OCInumber)),
+            			                   cursor.getFloat(cursor.getColumnIndex(KEY_classRating)),
+            			                   cursor.getFloat(cursor.getColumnIndex(KEY_professorRating)),
+            			                   cursor.getFloat(cursor.getColumnIndex(KEY_workRating)));
+                courses.add(course);
+                cursor.moveToNext();
+            }
+        }
     	
+    	return courses;
     }
     
     public int getCourseCount() {
@@ -91,6 +135,5 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void deleteCourse (Course course) {
     	
     }
-    
-    
+
 }

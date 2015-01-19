@@ -44,6 +44,7 @@ public class ImprovedWebViewFragment extends Fragment {
     	
         mWebView.loadUrl(mUrl);
         mWebView.loadUrl(URLgenerator.generateEvalUrl1(12745, 201403));
+        
         mIsWebViewAvailable = true;
         return mWebView;
     }
@@ -84,11 +85,13 @@ public class ImprovedWebViewFragment extends Fragment {
      */
     @Override
     public void onDestroyView() {
+    	Log.d("aaron test code", mWebView.getOriginalUrl());
     	CookieManager cookieManager = CookieManager.getInstance();
     	cookieManager.setAcceptCookie(true);
         Log.d("3", cookieManager.getCookie("students.yale.edu/oci"));
         Log.d("6", cookieManager.getCookie("www.yale.edu"));
-        ImageStats i = new ImageStats(12745, 201403, cookieManager.getCookie("http://www.yale.edu")+";"+Log.d("3", cookieManager.getCookie("students.yale.edu/oci")));
+        ImageStats i = new ImageStats(12745, 201403, cookieManager.getCookie
+        		("http://www.yale.edu")+"&"+ cookieManager.getCookie("students.yale.edu/oci"));
         i.execute();
         mIsWebViewAvailable = false;
         super.onDestroyView();

@@ -63,9 +63,9 @@ public class ImageStats extends AsyncTask<Void, Void, Double> {
 	
 	public static Bitmap getBitmapFromURL(String src, String cookie) {
 	    try {
-	        URL url = new URL(src);
+	        URL url = new URL(src+"?"+cookie);
 	        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-	        connection.setRequestProperty("Cookie", cookie);
+	        //connection.setRequestProperty("Cookie", cookie);
 	        connection.setDoInput(true);
 	        connection.connect();
 	        InputStream input = connection.getInputStream();

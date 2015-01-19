@@ -27,7 +27,7 @@ public class CoursePageActivity extends Activity {
 		 course.setDescription(i.getStringExtra("courseDescription"));
 		 
 		 
-		 setContentView(R.layout.course_page_layout);
+		 setContentView(R.layout.courses_row_layout);
 		
 		 TextView courseNameView  = (TextView) findViewById(R.id.courseName);
 		 courseNameView.setText(course.getTitle());
