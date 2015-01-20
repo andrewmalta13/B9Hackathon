@@ -18,7 +18,8 @@
   
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:configChanges="keyboardHidden|orientation|screenSize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,7 +29,8 @@
         
         <activity
             android:name=".CoursePageActivity"
-            android:label="Course Page">
+            android:label="Course Page"
+            android:configChanges="keyboardHidden|orientation|screenSize">>
             
         </activity>
     </application>

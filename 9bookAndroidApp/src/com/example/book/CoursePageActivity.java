@@ -27,7 +27,7 @@ public class CoursePageActivity extends Activity {
 		 course.setDescription(i.getStringExtra("courseDescription"));
 		 
 		 
-		 setContentView(R.layout.courses_row_layout);
+		 setContentView(R.layout.course_page_layout);
 		
 		 TextView courseNameView  = (TextView) findViewById(R.id.courseName);
 		 courseNameView.setText(course.getTitle());
@@ -35,7 +35,7 @@ public class CoursePageActivity extends Activity {
 		 TextView courseTimeView  = (TextView) findViewById(R.id.time);
 		 courseTimeView.setText(course.getTime());
 		 
-		 TextView courseLocationView  = (TextView) findViewById(R.id.location); // changed this from location in Andrew's code. Was throwing an error
+		 TextView courseLocationView  = (TextView) findViewById(R.id.location);
 		 courseLocationView.setText(course.getLocation());
 		 
 		 TextView courseDistView  = (TextView) findViewById(R.id.distReqs);

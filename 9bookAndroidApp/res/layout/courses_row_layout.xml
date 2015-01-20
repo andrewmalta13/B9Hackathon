@@ -6,7 +6,7 @@
     android:descendantFocusability="blocksDescendants">
     
     <TextView
-        android:id="@+id/courseNumber"
+        android:id="@+id/courseNumber_row"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"
