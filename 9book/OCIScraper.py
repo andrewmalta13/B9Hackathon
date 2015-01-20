@@ -54,11 +54,11 @@ def parseCourseText(fullcourseinfo):
     "timeLocation": lambda item: not ("Spring" in item or ("Fall" in item or "Summer" in item)),
     #"location" :lambda item:
     "term": lambda item: item.startswith("Spring") or (item.startswith("Fall") or item.startswith("Summer")),
-    "departmentPermissionRequired": lambda item: "Pre-Approval" in item,
-    "final":lambda item: "Final exam scheduled" in item or "No regular final examination" in item,
+    "departmentPermissionRequired": lambda item: "Pre-Approval" in item and len(item) < 50,
+    "final":lambda item: ("Final exam scheduled" in item or "No regular final examination" in item) and len(item) < 50,
     "Areas":lambda item: item.startswith("Areas"),
     "Skills": lambda item: item.startswith("Skills"),
-    "instructorPermissionRequired": lambda item: "Permission of instructor required" in item,
+    "instructorPermissionRequired": lambda item: "Permission of instructor required" in item and len(item) < 50, 
     "readingPeriod": lambda item: "Meets during reading period" == item,
     "YCnote": lambda item: "YC" in item and ":" in item,
     "description": lambda item: True,
@@ -109,7 +109,7 @@ def parseCourseText(fullcourseinfo):
     
     for key, value in initialDictionary.iteritems():
         cleanDictionary[key] = value.strip()
-    print cleanDictionary
+    
     finalDictionary = {"courseName":cleanDictionary["courseName"],
                        "professor":cleanDictionary["professor"],
                        "time": "",
@@ -171,4 +171,4 @@ def parseCourseText(fullcourseinfo):
 
     return finalDictionary
 
-# print parseCourseText(courseNumberTest(22422,201501)) #test code. leaving until we are sure is bug free
+#print parseCourseText(courseNumberTest(24023,201501)) #test code. leaving until we are sure is bug free
