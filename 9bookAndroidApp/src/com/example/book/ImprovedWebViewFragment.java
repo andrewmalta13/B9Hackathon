@@ -57,6 +57,7 @@ public class ImprovedWebViewFragment extends Fragment {
         if (mIsWebViewAvailable){
         	getWebView().getSettings().setJavaScriptEnabled(true);
         	getWebView().loadUrl(mUrl = url);
+        	Log.d("LoadingURL", "URL: "+ url.toString());
         }
         else Log.w("ImprovedWebViewFragment", "WebView cannot be found. Check the view and fragment have been loaded.");
     }
@@ -85,11 +86,6 @@ public class ImprovedWebViewFragment extends Fragment {
      */
     @Override
     public void onDestroyView() {
-//    	Log.d("aaron test code", mWebView.getOriginalUrl());
-//    	CookieManager cookieManager = CookieManager.getInstance();
-//    	cookieManager.setAcceptCookie(true);
-//        Log.d("3", cookieManager.getCookie("students.yale.edu/oci"));
-//        Log.d("6", cookieManager.getCookie("www.yale.edu"));
         ImageStats i = new ImageStats(12745, 201403);
         i.execute();
         mIsWebViewAvailable = false;
