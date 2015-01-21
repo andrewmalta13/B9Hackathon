@@ -2,10 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.book.MainActivity" >
 
-    <item
-        android:id="@+id/action_example"
-        android:showAsAction="withText|ifRoom"
-        android:title="@string/action_example"/>
+     <item android:id="@+id/search"
+          android:title="classes_search"
+          android:icon="@drawable/ic_search"
+          android:showAsAction="collapseActionView|ifRoom"
+          android:actionViewClass="android.widget.SearchView" />
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
