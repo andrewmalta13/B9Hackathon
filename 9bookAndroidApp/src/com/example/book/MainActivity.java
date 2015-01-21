@@ -67,6 +67,8 @@ public class MainActivity extends Activity
                 break;
             case 3:
                 mTitle = getString(R.string.title_section3);
+                ImageStats i = new ImageStats(12745, 201403);
+                i.execute();
                 break;
         }
     }
@@ -116,7 +118,8 @@ public class MainActivity extends Activity
     private void updateCourseList() {
     	FragmentManager fragmentManager = getFragmentManager();
     	//BrowserFragment cas = new BrowserFragment();
-    	ImprovedWebViewFragment casLoginView = new ImprovedWebViewFragment("https://students.yale.edu/evalsearch");
+    	ImprovedWebViewFragment casLoginView = new 
+    			ImprovedWebViewFragment("https://students.yale.edu/evalsearch");
  	    
     	
         fragmentManager.beginTransaction()

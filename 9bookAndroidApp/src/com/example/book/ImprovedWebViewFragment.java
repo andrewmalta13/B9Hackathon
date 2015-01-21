@@ -20,7 +20,7 @@ public class ImprovedWebViewFragment extends Fragment {
     private WebView mWebView;
     private boolean mIsWebViewAvailable;
     private String mUrl = null;
- 
+    public Boolean finished;
     /**
      * Creates a new fragment which loads the supplied url as soon as it can
      * @param url the url to load once initialised
@@ -29,6 +29,7 @@ public class ImprovedWebViewFragment extends Fragment {
         super();
         mUrl = url;
     }
+    
  
     /**
      * Called to instantiate the view. Creates and returns the WebView.
@@ -40,10 +41,18 @@ public class ImprovedWebViewFragment extends Fragment {
             mWebView.destroy();
         }
         mWebView = new WebView(getActivity());
-        mWebView.setWebViewClient(new WebViewClient());
-    	
-        mWebView.loadUrl(mUrl);
-        mWebView.loadUrl(URLgenerator.generateEvalUrl1(12745, 201403));
+        
+        mWebView.setWebViewClient(new WebViewClient() {
+ 
+          
+          public void onPageFinished(WebView view, String url1) {
+              Log.d("url", "url:" + url1);
+              if(url1.contains("students.yale.edu/evalsearch")){
+            	 onFinishCreateCourseFragment(); 
+              }
+          }
+        });
+        mWebView.loadUrl(mUrl);   //load the course evaluation search url to generate correct cookies.
         
         mIsWebViewAvailable = true;
         return mWebView;
@@ -57,7 +66,7 @@ public class ImprovedWebViewFragment extends Fragment {
         if (mIsWebViewAvailable){
         	getWebView().getSettings().setJavaScriptEnabled(true);
         	getWebView().loadUrl(mUrl = url);
-        	Log.d("LoadingURL", "URL: "+ url.toString());
+        	
         }
         else Log.w("ImprovedWebViewFragment", "WebView cannot be found. Check the view and fragment have been loaded.");
     }
@@ -79,6 +88,12 @@ public class ImprovedWebViewFragment extends Fragment {
         mWebView.onResume();
         super.onResume();
     }
+    
+    public void onFinishCreateCourseFragment(){
+    	this.getFragmentManager().beginTransaction()
+        .replace(R.id.container, new CoursesFragment(201501))
+        .commit();
+    }
  
     /**
      * Called when the WebView has been detached from the fragment.
@@ -86,8 +101,6 @@ public class ImprovedWebViewFragment extends Fragment {
      */
     @Override
     public void onDestroyView() {
-        ImageStats i = new ImageStats(12745, 201403);
-        i.execute();
         mIsWebViewAvailable = false;
         super.onDestroyView();
     }
