@@ -5,12 +5,12 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.webkit.CookieSyncManager;
 
 
 public class ImageStats extends AsyncTask<Void, Void, Double> {
@@ -65,7 +65,6 @@ public class ImageStats extends AsyncTask<Void, Void, Double> {
 	    try {
 	        URL url = new URL(src+"?"+cookie);
 	        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-	        //connection.setRequestProperty("Cookie", cookie);
 	        connection.setDoInput(true);
 	        connection.connect();
 	        InputStream input = connection.getInputStream();
