@@ -28,6 +28,15 @@ public class MainActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
+        android.webkit.CookieSyncManager.createInstance(this);
+	     // unrelated, just make sure cookies are generally allowed
+	    android.webkit.CookieManager.getInstance().setAcceptCookie(true);
+
+	     // magic starts here
+	    WebkitCookieManagerProxy coreCookieManager = new WebkitCookieManagerProxy(null, java.net.CookiePolicy.ACCEPT_ALL);
+	    java.net.CookieHandler.setDefault(coreCookieManager);
+	    
+        
                 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -115,10 +124,8 @@ public class MainActivity extends Activity
                 .commit();
         
         
-             	
+  
     	 //new ImageStats("http://i60.tinypic.com/qwxgdk.jpg").execute();
 		
 	}
-
-
 }

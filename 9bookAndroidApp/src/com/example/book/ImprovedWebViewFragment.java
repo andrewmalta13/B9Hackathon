@@ -114,6 +114,5 @@ public class ImprovedWebViewFragment extends Fragment {
      */
     public WebView getWebView() {
         return mIsWebViewAvailable ? mWebView : null;
-    }
-       
+    }    
 }
