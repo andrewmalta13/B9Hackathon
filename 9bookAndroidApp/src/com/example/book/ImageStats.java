@@ -16,19 +16,17 @@ import android.webkit.CookieSyncManager;
 public class ImageStats extends AsyncTask<Void, Void, Double> {
 	private int ociNum;
 	private int semesterNum;
-	private String cookie;
 	
-	public ImageStats(int ociNum, int semesterNum, String cookie){
+	public ImageStats(int ociNum, int semesterNum){
 		this.ociNum=ociNum;
 		this.semesterNum=semesterNum;
-		this.cookie=cookie;
 	}
 	
-    public static double[] getStats(int ociNum, int semesterNum, String cookie)
+    public static double[] getStats(int ociNum, int semesterNum)
     {
     	try {
-    	double rec1 = getStats(URLgenerator.generateEvalUrl1(ociNum, semesterNum), cookie);
-    	double rec2 = getStats(URLgenerator.generateEvalUrl1(ociNum, semesterNum), cookie);
+    	double rec1 = getStats(URLgenerator.generateEvalUrl1(ociNum, semesterNum));
+    	double rec2 = getStats(URLgenerator.generateEvalUrl1(ociNum, semesterNum));
     	
     	double[] r = {rec1, rec2};
     	return r;
@@ -36,10 +34,10 @@ public class ImageStats extends AsyncTask<Void, Void, Double> {
     		return null;
     	}
     }
-	public static double getStats(String url, String cookie)
+	public static double getStats(String url)
 	{
 		
-		Bitmap image= getBitmapFromURL(url, cookie);
+		Bitmap image= getBitmapFromURL(url);
 		
 		int[] xlocs={90,150,210,270,330};
 		int yloc=248;
@@ -61,9 +59,9 @@ public class ImageStats extends AsyncTask<Void, Void, Double> {
 		return (total/(float)num);
 	}
 	
-	public static Bitmap getBitmapFromURL(String src, String cookie) {
+	public static Bitmap getBitmapFromURL(String src) {
 	    try {
-	        URL url = new URL(src+"?"+cookie);
+	        URL url = new URL(src);
 	        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 	        connection.setDoInput(true);
 	        connection.connect();
@@ -77,7 +75,7 @@ public class ImageStats extends AsyncTask<Void, Void, Double> {
 
 	@Override
 	protected Double doInBackground(Void... params) {
-		return getStats(ociNum, semesterNum, cookie)[0];
+		return getStats(ociNum, semesterNum)[0];
 	}
 	
 	 @Override
