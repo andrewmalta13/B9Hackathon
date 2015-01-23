@@ -83,7 +83,7 @@ public class ImageStats extends AsyncTask<Void, Void, ArrayList<Course>> {
 			 double[] ratingsArray = getStats(c.getOCINumber(), semesterNum);
 			 c.setWorkRating(ratingsArray[0]);
 			 c.setClassRating(ratingsArray[1]);
-			 Log.d("ratings:", "work: " + c.getWorkRating() + " class: " + c.getClassRating());
+			 Log.d("" + c.getOCINumber(), "work: " + c.getWorkRating() + " class: " + c.getClassRating());
 		}
 		return courseList;
 	}

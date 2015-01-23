@@ -60,7 +60,7 @@ class JSONHandler(webapp2.RequestHandler):
 class FetchCoursesHandler(webapp2.RequestHandler):
     def get(self):
         for i in range (20001, 25000):
-          courseText = OCIScraper.courseNumberTest(i, 201501)
+          courseText = OCIScraper.courseNumberTest(i, 201301)
 
           if courseText:
             courseInfoDict = OCIScraper.parseCourseText(courseText)
