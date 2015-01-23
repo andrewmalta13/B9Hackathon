@@ -2,31 +2,22 @@ package com.example.book;
 
 import java.util.ArrayList;
 
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-
-
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.ListFragment;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 public class CoursesFragment extends ListFragment{
 	private ArrayList<Course> courses = new ArrayList<Course>();
 	private CoursesAdapter adapter;
-	int semesterCode;
+	private int semesterCode;
 	
 	public CoursesFragment(int semCode){
 		super();
@@ -47,7 +38,6 @@ public class CoursesFragment extends ListFragment{
 	    
 	   
 	    if(courses.isEmpty()){
-	    	Log.d("hello", "http://ninebookjson.appspot.com/" + semesterCode +".json");
             JsonFetch parser = new JsonFetch(this, "http://ninebookjson.appspot.com/"+ semesterCode + ".json");
             parser.execute();        
 	    }
@@ -119,13 +109,18 @@ public class CoursesFragment extends ListFragment{
                 
                 int OCInumber = course.getInt("OCInumber");
                 
+                double workRating = 0.0;
+                double classRating = 0.0;
+                double professorRating = 0.0;
+                
+                
                 courseList.add(new Course(title, professor, time, location, distReqAreas, term, description,
                 		instructorPermissionRequired, finalDescription, courseNum,
-                		departmentPermissionRequired, readingPeriod, OCInumber, 0.0, 0.0, 0.0));
+                		departmentPermissionRequired, readingPeriod, OCInumber, classRating, professorRating, workRating));
             }
-            	
-                courses = courseList;
-        	    adapter.updateCourseList(courseList);
+            	  
+            courses = courseList;
+        	adapter.updateCourseList(courseList);
         	       
         }
 		
@@ -133,5 +128,13 @@ public class CoursesFragment extends ListFragment{
 			Log.e("json parsing", "error parsing json" + e.toString());
 		}
 	}
+
+	public void generateRatings() {
+		new ImageStats(semesterCode, courses, this).execute();
+	}
 	
+	public void updateCourses(ArrayList<Course> courseList){
+		courses = courseList;
+		adapter.updateCourseList(courseList);
+	}
 }

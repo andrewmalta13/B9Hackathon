@@ -17,11 +17,12 @@ public class MainActivity extends Activity
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private CharSequence mTitle;
+    public Boolean userAuthenticated = false;
     
     //eventually find a way of prompting user input to parse the correct semester.
     //this value is being passed when we create a CoursesFragment to 
     //determine the semester of classes to parse from ninebookjson.
-    private int semesterCode = 201501;
+    private int semesterCode = 201301;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +68,6 @@ public class MainActivity extends Activity
                 break;
             case 3:
                 mTitle = getString(R.string.title_section3);
-                ImageStats i = new ImageStats(12745, 201403);
-                i.execute();
                 break;
         }
     }
@@ -109,26 +108,23 @@ public class MainActivity extends Activity
             return true;
         }
         else if(id == R.id.update_course_list){
-        	updateCourseList();
+        	createCredentials();
         	return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void updateCourseList() {
+    private void createCredentials() {
+    	//load the cas login page to generate the cookies needed to fetch course evals.
     	FragmentManager fragmentManager = getFragmentManager();
-    	//BrowserFragment cas = new BrowserFragment();
     	ImprovedWebViewFragment casLoginView = new 
-    			ImprovedWebViewFragment("https://students.yale.edu/evalsearch");
- 	    
-    	
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, casLoginView)
-                .commit();
-        
-        
-  
-    	 //new ImageStats("http://i60.tinypic.com/qwxgdk.jpg").execute();
-		
+    			ImprovedWebViewFragment("https://students.yale.edu/evalsearch", this);
+    	fragmentManager.beginTransaction()
+        .replace(R.id.container, casLoginView)
+        .commit();
 	}
+    
+    public void updateCourseList(){
+    	
+    }
 }

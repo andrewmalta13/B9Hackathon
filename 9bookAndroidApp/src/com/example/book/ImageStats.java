@@ -4,22 +4,25 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
+import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.webkit.CookieSyncManager;
 
 
-public class ImageStats extends AsyncTask<Void, Void, Double> {
-	private int ociNum;
+public class ImageStats extends AsyncTask<Void, Void, ArrayList<Course>> {
 	private int semesterNum;
+	private ArrayList<Course> courses;
+	private Fragment parent;
 	
-	public ImageStats(int ociNum, int semesterNum){
-		this.ociNum=ociNum;
+	public ImageStats(int semesterNum, ArrayList<Course> courses, Fragment f){
 		this.semesterNum=semesterNum;
+		this.courses = courses;
+		parent = f;
 	}
 	
     public static double[] getStats(int ociNum, int semesterNum)
@@ -31,7 +34,7 @@ public class ImageStats extends AsyncTask<Void, Void, Double> {
     	double[] r = {rec1, rec2};
     	return r;
     	} catch (Exception e){
-    		return null;
+    		return new double[] {0.0, 0.0};
     	}
     }
 	public static double getStats(String url)
@@ -74,13 +77,19 @@ public class ImageStats extends AsyncTask<Void, Void, Double> {
 	}
 
 	@Override
-	protected Double doInBackground(Void... params) {
-		return getStats(ociNum, semesterNum)[0];
+	protected ArrayList<Course> doInBackground(Void... params) {
+		ArrayList<Course> courseList = courses;
+		for(Course c : courseList){
+			 double[] ratingsArray = getStats(c.getOCINumber(), semesterNum);
+			 c.setWorkRating(ratingsArray[0]);
+			 c.setClassRating(ratingsArray[1]);
+			 Log.d("ratings:", "work: " + c.getWorkRating() + " class: " + c.getClassRating());
+		}
+		return courseList;
 	}
 	
 	 @Override
-     protected void onPostExecute(Double data) {
-         Log.d("result", "" + data);
+     protected void onPostExecute(ArrayList<Course> courses) {
+		 ((CoursesFragment) parent).updateCourses(courses);
      }
-	
 }

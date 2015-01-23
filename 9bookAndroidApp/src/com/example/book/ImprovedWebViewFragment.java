@@ -1,17 +1,12 @@
 package com.example.book;
 
 import android.app.Fragment;
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Picture;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.CookieManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -21,13 +16,15 @@ public class ImprovedWebViewFragment extends Fragment {
     private boolean mIsWebViewAvailable;
     private String mUrl = null;
     public Boolean finished;
+    public Context activity;
     /**
      * Creates a new fragment which loads the supplied url as soon as it can
      * @param url the url to load once initialised
      */
-    public ImprovedWebViewFragment(String url) {
+    public ImprovedWebViewFragment(String url, Context c) {
         super();
         mUrl = url;
+        activity = c;
     }
     
  
@@ -48,6 +45,7 @@ public class ImprovedWebViewFragment extends Fragment {
           public void onPageFinished(WebView view, String url1) {
               Log.d("url", "url:" + url1);
               if(url1.contains("students.yale.edu/evalsearch")){
+            	 ((MainActivity) activity).userAuthenticated = true;
             	 onFinishCreateCourseFragment(); 
               }
           }

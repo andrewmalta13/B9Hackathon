@@ -132,14 +132,14 @@ public class Course {
     public void setReadingPeriod(Boolean b){
     	readingPeriod = b;
     }
-    public void setClassRating(float f){
-    	classRating = f;
+    public void setClassRating(double d){
+    	classRating = d;
     }
-    public void setProfRating(float f){
-    	professorRating = f;
+    public void setProfRating(double d){
+    	professorRating = d;
     }
-    public void setWorkRating(float f){
-    	workRating = f;
+    public void setWorkRating(double d){
+    	workRating = d;
     }
 
     
