@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:text="hello"
+        
         />
     
 
@@ -28,7 +28,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@id/courseName"
         android:layout_alignParentStart="true"
-        android:text="time" />
+         />
 
     <TextView
         android:id="@+id/location"
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/courseName"
         android:layout_toRightOf="@+id/time"
-        android:text="location" />
+         />
 
     <TextView
         android:id="@+id/distReqs"
@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/location"
         android:layout_below="@id/location"
-        android:text="distReqs" />
+         />
 
     <TextView
         android:id="@+id/courseNumber"
@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/time"
-        android:text="courseNumber" />
+         />
 
     <TextView
         android:id="@+id/description"
@@ -61,32 +61,34 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@id/courseNumber"
         android:layout_marginTop="58dp"
-        android:text="description"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <ImageView
+    <TextView
         android:id="@+id/Rating1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/courseNumber"
-        android:src="@android:drawable/alert_dark_frame" />
+        android:text="4.3"
+         />
     
-    <ImageView
+    <TextView
         android:id="@+id/Rating2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/Rating1"
         android:layout_centerHorizontal="true"
-        android:src="@android:drawable/alert_dark_frame" />
+        android:text="4.4"
+         />
 
-    <ImageView
+    <TextView
         android:id="@+id/Rating3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@id/Rating2"
-        android:src="@android:drawable/alert_dark_frame" />
+        android:text="3.3"
+         />
 
     
 

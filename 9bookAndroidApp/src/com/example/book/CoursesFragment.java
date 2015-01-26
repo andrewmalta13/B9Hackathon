@@ -62,13 +62,18 @@ public class CoursesFragment extends ListFragment{
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		Course courseSelected =(Course) l.getAdapter().getItem(position);
 		Intent courseIntent = new Intent(this.getActivity(), CoursePageActivity.class);
-		
 	    courseIntent.putExtra("courseName", courseSelected.getTitle());
 		courseIntent.putExtra("courseTime", courseSelected.getTime());
 		courseIntent.putExtra("courseLocation", courseSelected.getLocation());
-		courseIntent.putExtra("courseDisReqst", courseSelected.getDistReqs());
+		courseIntent.putExtra("courseDistReqst", courseSelected.getDistReqs());
 		courseIntent.putExtra("courseNumber", courseSelected.getCourseNum());
 		courseIntent.putExtra("courseDescription", courseSelected.getDescription());
+		/* uncomment when ratings have been implemented
+		courseIntent.putExtra("profRating",courseSelected.getProfRating());
+		courseIntent.putExtra("classRating",courseSelected.getClassRating());
+		courseIntent.putExtra("workRating",(courseSelected.getWorkRating());
+		 
+		 */
 		
 		this.getActivity().startActivity(courseIntent);
 		
