@@ -30,6 +30,7 @@ public class CoursePageActivity extends Activity {
 		 setContentView(R.layout.course_page_layout);
 		
 		 TextView courseNameView  = (TextView) findViewById(R.id.courseName);
+		 courseNameView.setText(course.getTitle());
 		 
 		 TextView courseTimeView  = (TextView) findViewById(R.id.time);
 		 courseTimeView.setText(course.getTime());
