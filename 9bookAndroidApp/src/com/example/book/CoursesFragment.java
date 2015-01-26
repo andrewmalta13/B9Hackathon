@@ -68,12 +68,11 @@ public class CoursesFragment extends ListFragment{
 		courseIntent.putExtra("courseDistReqst", courseSelected.getDistReqs());
 		courseIntent.putExtra("courseNumber", courseSelected.getCourseNum());
 		courseIntent.putExtra("courseDescription", courseSelected.getDescription());
-		/* uncomment when ratings have been implemented
+
 		courseIntent.putExtra("profRating",courseSelected.getProfRating());
 		courseIntent.putExtra("classRating",courseSelected.getClassRating());
-		courseIntent.putExtra("workRating",(courseSelected.getWorkRating());
+		courseIntent.putExtra("workRating", courseSelected.getWorkRating());
 		 
-		 */
 		
 		this.getActivity().startActivity(courseIntent);
 		

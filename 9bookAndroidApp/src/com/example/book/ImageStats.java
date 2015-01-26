@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.webkit.CookieManager;
 
 
 public class ImageStats extends AsyncTask<Void, Void, ArrayList<Course>> {
@@ -20,7 +21,7 @@ public class ImageStats extends AsyncTask<Void, Void, ArrayList<Course>> {
 	private Fragment parent;
 	
 	public ImageStats(int semesterNum, ArrayList<Course> courses, Fragment f){
-		this.semesterNum=semesterNum;
+	    this.semesterNum=semesterNum;
 		this.courses = courses;
 		parent = f;
 	}
@@ -28,13 +29,17 @@ public class ImageStats extends AsyncTask<Void, Void, ArrayList<Course>> {
     public static double[] getStats(int ociNum, int semesterNum)
     {
     	try {
-    	double rec1 = getStats(URLgenerator.generateEvalUrl1(ociNum, semesterNum));
-    	double rec2 = getStats(URLgenerator.generateEvalUrl1(ociNum, semesterNum));
     	
-    	double[] r = {rec1, rec2};
-    	return r;
+    	    CookieManager ck = android.webkit.CookieManager.getInstance();
+    	    Log.d("3", ck.getCookie("students.yale.edu/oci"));		
+    	    Log.d("6", ck.getCookie("www.yale.edu"));
+    	    double rec1 = getStats(URLgenerator.generateEvalUrl1(ociNum, semesterNum));
+    	    double rec2 = getStats(URLgenerator.generateEvalUrl1(ociNum, semesterNum));
+    	
+    	    double[] r = {rec1, rec2};
+    	    return r;
     	} catch (Exception e){
-    		return new double[] {0.0, 0.0};
+            return new double[] {0.0, 0.0};
     	}
     }
 	public static double getStats(String url)
@@ -78,12 +83,15 @@ public class ImageStats extends AsyncTask<Void, Void, ArrayList<Course>> {
 
 	@Override
 	protected ArrayList<Course> doInBackground(Void... params) {
+		
 		ArrayList<Course> courseList = courses;
+         
+		
 		for(Course c : courseList){
 			 double[] ratingsArray = getStats(c.getOCINumber(), semesterNum);
 			 c.setWorkRating(ratingsArray[0]);
 			 c.setClassRating(ratingsArray[1]);
-			 Log.d("" + c.getOCINumber(), "work: " + c.getWorkRating() + " class: " + c.getClassRating());
+			 //Log.d("" + c.getOCINumber(), "work: " + c.getWorkRating() + " class: " + c.getClassRating());
 		}
 		return courseList;
 	}

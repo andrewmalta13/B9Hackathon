@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.CookieManager;
+import android.webkit.WebView;
 import android.widget.SearchView;
 
 
@@ -29,16 +31,8 @@ public class MainActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        android.webkit.CookieSyncManager.createInstance(this);
-	     // unrelated, just make sure cookies are generally allowed
-	    android.webkit.CookieManager.getInstance().setAcceptCookie(true);
-
-	     // magic starts here
-	    WebkitCookieManagerProxy coreCookieManager = new WebkitCookieManagerProxy(null, java.net.CookiePolicy.ACCEPT_ALL);
-	    java.net.CookieHandler.setDefault(coreCookieManager);
+       
 	    
-        
-                
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -117,6 +111,12 @@ public class MainActivity extends Activity
     private void createCredentials() {
     	//load the cas login page to generate the cookies needed to fetch course evals.
     	FragmentManager fragmentManager = getFragmentManager();
+    	android.webkit.CookieSyncManager.createInstance(this);
+    	android.webkit.CookieManager.getInstance().setAcceptCookie(true);
+    	WebkitCookieManagerProxy coreCookieManager = new WebkitCookieManagerProxy(null, java.net.CookiePolicy.ACCEPT_ALL);
+    	java.net.CookieHandler.setDefault(coreCookieManager);
+  	    
+  	    
     	ImprovedWebViewFragment casLoginView = new 
     			ImprovedWebViewFragment("https://students.yale.edu/evalsearch", this);
     	fragmentManager.beginTransaction()

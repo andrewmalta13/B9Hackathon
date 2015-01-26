@@ -23,18 +23,13 @@ public class CoursePageActivity extends Activity {
 		 course.setDistReqs(i.getStringExtra("courseDistReq"));
 		 course.setCourseNum(i.getStringExtra("courseNumber"));
 		 course.setDescription(i.getStringExtra("courseDescription"));
-		 /* uncomment when ratings implemented
 		 course.setProfRating(i.getDoubleExtra("profRating", 0));
 		 course.setClassRating(i.getDoubleExtra("classRating",0));
 		 course.setWorkRating(i.getDoubleExtra("workRating",0));
-		 */
+		 
 		 setContentView(R.layout.course_page_layout);
 		
 		 TextView courseNameView  = (TextView) findViewById(R.id.courseName);
-		 if (course.getTitle() == "")
-			 courseNameView.setText("None");
-		 else
-			 courseNameView.setText(course.getTitle());
 		 
 		 TextView courseTimeView  = (TextView) findViewById(R.id.time);
 		 courseTimeView.setText(course.getTime());
@@ -51,7 +46,7 @@ public class CoursePageActivity extends Activity {
 		 TextView courseDescView  = (TextView) findViewById(R.id.description);
 		 courseDescView.setText(course.getDescription()); 
 		 
-		 /* uncomment when ratings implemented
+
 		 TextView profRating = (TextView) findViewById(R.id.Rating1);
 		 profRating.setText(Double.toString(course.getProfRating()));
 		 
@@ -60,7 +55,7 @@ public class CoursePageActivity extends Activity {
 		 
 		 TextView workRating = (TextView) findViewById(R.id.Rating3);
 		 workRating.setText(Double.toString(course.getWorkRating()));
-		 */
+		 
 	}
 	
 }

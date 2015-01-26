@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -43,9 +45,9 @@ public class ImprovedWebViewFragment extends Fragment {
  
           
           public void onPageFinished(WebView view, String url1) {
-              Log.d("url", "url:" + url1);
               if(url1.contains("students.yale.edu/evalsearch")){
             	 ((MainActivity) activity).userAuthenticated = true;
+                 
             	 onFinishCreateCourseFragment(); 
               }
           }
@@ -88,6 +90,7 @@ public class ImprovedWebViewFragment extends Fragment {
     }
     
     public void onFinishCreateCourseFragment(){
+    	
     	this.getFragmentManager().beginTransaction()
         .replace(R.id.container, new CoursesFragment(201501))
         .commit();
@@ -98,7 +101,9 @@ public class ImprovedWebViewFragment extends Fragment {
      * The WebView is no longer available after this time.
      */
     @Override
-    public void onDestroyView() {
+    public void onDestroyView() {		
+ 			     
+
         mIsWebViewAvailable = false;
         super.onDestroyView();
     }
@@ -109,6 +114,9 @@ public class ImprovedWebViewFragment extends Fragment {
     @Override
     public void onDestroy() {
         if (mWebView != null) {
+        	
+        	CookieManager cookieManager = CookieManager.getInstance();		
+        	cookieManager.setAcceptCookie(true);		
             mWebView.destroy();
             mWebView = null;
         }
