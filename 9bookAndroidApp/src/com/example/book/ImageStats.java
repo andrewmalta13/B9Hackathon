@@ -19,22 +19,27 @@ import android.webkit.CookieManager;
 public class ImageStats extends AsyncTask<Void, Void, Void> {
 	private int semesterNum;
 	private List<Course> courses;
-	private Fragment parent;
+	private int startIndex;
+	private int numThreads;  //used in modulus calculation of which evals to update
 	
-	public ImageStats(int semesterNum, List<Course> courses, Fragment f){
+	
+	public ImageStats(int semesterNum, List<Course> courses, int startIndex, int threadNum){
 	    this.semesterNum=semesterNum;
 		this.courses = courses;
-		parent = f;
+		this.startIndex =  startIndex;
+		this.numThreads = threadNum; 
 	}
 	
-    public static double[] getStats(int ociNum, int semesterNum, String title)
+    public  double[] getStats(int ociNum, int semesterNum, String title)
     {
     	try {
     		
     	    double rec1 = getStats(URLgenerator.generateEvalUrl1(ociNum, semesterNum));
-    	    Log.d("eval1: " + title + " " + ociNum, "" + rec1);
+    	   // Log.d("eval1: " + title + " " + ociNum, "" + rec1);
     	    double rec2 = getStats(URLgenerator.generateEvalUrl2(ociNum, semesterNum));
-    	    Log.d("eval2: " + title + " " + ociNum, "" + rec2);
+    	    //Log.d("eval2: " + title + " " + ociNum, "" + rec2);
+    	    
+    	    Log.d("startIndex: ", "" + startIndex);
     	
     	    double[] r = {rec1, rec2};
     	    return r;
@@ -75,6 +80,7 @@ public class ImageStats extends AsyncTask<Void, Void, Void> {
 	        connection.connect();
 	        InputStream input = connection.getInputStream();
 	        Bitmap myBitmap = BitmapFactory.decodeStream(input);
+	        connection.disconnect();
 	        return myBitmap;
 	    } catch (IOException e) {
 	        return null;
@@ -86,12 +92,19 @@ public class ImageStats extends AsyncTask<Void, Void, Void> {
 		
 		List<Course> courseList = courses;
          
-		
-		for(Course c : courseList){
+		int size = courses.size();
+		for(int i = startIndex; i < size; i += numThreads){
+			 Course c = courses.get(i);
 			 double[] ratingsArray = getStats(c.getOCINumber(), semesterNum, c.getCourseNum());
-			 c.setWorkRating(ratingsArray[0]);
-			 c.setClassRating(ratingsArray[1]);
-
+			 if (ratingsArray[0] == Double.NaN || ratingsArray[1] == Double.NaN) {
+				 c.setWorkRating(0.0);
+				 c.setClassRating(0.0);
+			 }
+			 else{
+				 c.setWorkRating(ratingsArray[0]);
+				 c.setClassRating(ratingsArray[1]);
+			 }
+			 
 		}
 		return null;
 	}

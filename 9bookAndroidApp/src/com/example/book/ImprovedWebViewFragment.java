@@ -96,17 +96,16 @@ public class ImprovedWebViewFragment extends Fragment {
      
     	
     	// Threads for fetching the course evals. TODO try to omptimize the time this process takes.
-    	ImageStats thread1 = new ImageStats(201301, ((MainActivity)this.getActivity()).courses.subList(0, 1000), null);
-    	ImageStats thread2 = new ImageStats(201301, ((MainActivity)this.getActivity()).courses.subList(1001, 2000), null);
-    	ImageStats thread3 = new ImageStats(201301, ((MainActivity)this.getActivity()).courses.subList(2001, 3000), null);
-    	ImageStats thread4 = new ImageStats(201301, ((MainActivity)this.getActivity()).courses.subList(3001, 4000), null);
     	
+    	EvalExecutor e = new EvalExecutor();
     	
-    	thread1.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null);
-    	thread2.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null);
-    	thread3.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null);
-    	thread4.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null); 
+    	for(int i = 0; i <= 99; i++){
+    		new ImageStats(201301, ((MainActivity)this.getActivity()).
+    				courses, i, 100).executeOnExecutor(e, null);
+    	}
     	
+ 
+
 
     	this.getFragmentManager().beginTransaction()
         .replace(R.id.container, new CoursesFragment(201501))
