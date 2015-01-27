@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Fragment;
 import android.graphics.Bitmap;
@@ -15,26 +16,25 @@ import android.util.Log;
 import android.webkit.CookieManager;
 
 
-public class ImageStats extends AsyncTask<Void, Void, ArrayList<Course>> {
+public class ImageStats extends AsyncTask<Void, Void, Void> {
 	private int semesterNum;
-	private ArrayList<Course> courses;
+	private List<Course> courses;
 	private Fragment parent;
 	
-	public ImageStats(int semesterNum, ArrayList<Course> courses, Fragment f){
+	public ImageStats(int semesterNum, List<Course> courses, Fragment f){
 	    this.semesterNum=semesterNum;
 		this.courses = courses;
 		parent = f;
 	}
 	
-    public static double[] getStats(int ociNum, int semesterNum)
+    public static double[] getStats(int ociNum, int semesterNum, String title)
     {
     	try {
-    	
-    	    CookieManager ck = android.webkit.CookieManager.getInstance();
-    	    Log.d("3", ck.getCookie("students.yale.edu/oci"));		
-    	    Log.d("6", ck.getCookie("www.yale.edu"));
+    		
     	    double rec1 = getStats(URLgenerator.generateEvalUrl1(ociNum, semesterNum));
-    	    double rec2 = getStats(URLgenerator.generateEvalUrl1(ociNum, semesterNum));
+    	    Log.d("eval1: " + title + " " + ociNum, "" + rec1);
+    	    double rec2 = getStats(URLgenerator.generateEvalUrl2(ociNum, semesterNum));
+    	    Log.d("eval2: " + title + " " + ociNum, "" + rec2);
     	
     	    double[] r = {rec1, rec2};
     	    return r;
@@ -82,22 +82,19 @@ public class ImageStats extends AsyncTask<Void, Void, ArrayList<Course>> {
 	}
 
 	@Override
-	protected ArrayList<Course> doInBackground(Void... params) {
+	protected Void doInBackground(Void... params) {
 		
-		ArrayList<Course> courseList = courses;
+		List<Course> courseList = courses;
          
 		
 		for(Course c : courseList){
-			 double[] ratingsArray = getStats(c.getOCINumber(), semesterNum);
+			 double[] ratingsArray = getStats(c.getOCINumber(), semesterNum, c.getCourseNum());
 			 c.setWorkRating(ratingsArray[0]);
 			 c.setClassRating(ratingsArray[1]);
-			 //Log.d("" + c.getOCINumber(), "work: " + c.getWorkRating() + " class: " + c.getClassRating());
+
 		}
-		return courseList;
+		return null;
 	}
 	
-	 @Override
-     protected void onPostExecute(ArrayList<Course> courses) {
-		 ((CoursesFragment) parent).updateCourses(courses);
-     }
+	
 }

@@ -1,7 +1,10 @@
 package com.example.book;
 
+import java.util.ArrayList;
+
 import android.app.Fragment;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -90,7 +93,21 @@ public class ImprovedWebViewFragment extends Fragment {
     }
     
     public void onFinishCreateCourseFragment(){
+     
     	
+    	// Threads for fetching the course evals. TODO try to omptimize the time this process takes.
+    	ImageStats thread1 = new ImageStats(201301, ((MainActivity)this.getActivity()).courses.subList(0, 1000), null);
+    	ImageStats thread2 = new ImageStats(201301, ((MainActivity)this.getActivity()).courses.subList(1001, 2000), null);
+    	ImageStats thread3 = new ImageStats(201301, ((MainActivity)this.getActivity()).courses.subList(2001, 3000), null);
+    	ImageStats thread4 = new ImageStats(201301, ((MainActivity)this.getActivity()).courses.subList(3001, 4000), null);
+    	
+    	
+    	thread1.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null);
+    	thread2.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null);
+    	thread3.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null);
+    	thread4.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null); 
+    	
+
     	this.getFragmentManager().beginTransaction()
         .replace(R.id.container, new CoursesFragment(201501))
         .commit();
@@ -103,7 +120,6 @@ public class ImprovedWebViewFragment extends Fragment {
     @Override
     public void onDestroyView() {		
  			     
-
         mIsWebViewAvailable = false;
         super.onDestroyView();
     }

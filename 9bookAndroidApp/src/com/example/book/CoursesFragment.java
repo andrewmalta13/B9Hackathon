@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 public class CoursesFragment extends ListFragment{
-	private ArrayList<Course> courses = new ArrayList<Course>();
 	private CoursesAdapter adapter;
 	private int semesterCode;
 	
@@ -37,7 +36,7 @@ public class CoursesFragment extends ListFragment{
 	    super.onActivityCreated(savedInstanceState);
 	    
 	   
-	    if(courses.isEmpty()){
+	    if(((MainActivity)this.getActivity()).courses.isEmpty()){
             JsonFetch parser = new JsonFetch(this, "http://ninebookjson.appspot.com/"+ semesterCode + ".json");
             parser.execute();        
 	    }
@@ -53,7 +52,7 @@ public class CoursesFragment extends ListFragment{
 	    courses.add(c3);
 	    */
 	    
-	    adapter = new CoursesAdapter(getActivity(), courses);
+	    adapter = new CoursesAdapter(getActivity(), ((MainActivity)this.getActivity()).courses);
 	    setListAdapter(adapter);   
 	}
 	
@@ -123,7 +122,7 @@ public class CoursesFragment extends ListFragment{
                 		departmentPermissionRequired, readingPeriod, OCInumber, classRating, professorRating, workRating));
             }
             	  
-            courses = courseList;
+            ((MainActivity)this.getActivity()).courses = courseList;
         	adapter.updateCourseList(courseList);
         	       
         }
@@ -134,11 +133,11 @@ public class CoursesFragment extends ListFragment{
 	}
 
 	public void generateRatings() {
-		new ImageStats(semesterCode, courses, this).execute();
+		//new ImageStats(semesterCode, courses, this).execute();
 	}
 	
 	public void updateCourses(ArrayList<Course> courseList){
-		courses = courseList;
+		((MainActivity)this.getActivity()).courses = courseList;
 		adapter.updateCourseList(courseList);
 	}
 }

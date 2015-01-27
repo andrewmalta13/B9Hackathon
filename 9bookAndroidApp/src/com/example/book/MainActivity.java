@@ -1,5 +1,7 @@
 package com.example.book;
 
+import java.util.ArrayList;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -7,6 +9,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.CookieManager;
@@ -20,17 +23,19 @@ public class MainActivity extends Activity
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private CharSequence mTitle;
     public Boolean userAuthenticated = false;
-    
-    //eventually find a way of prompting user input to parse the correct semester.
-    //this value is being passed when we create a CoursesFragment to 
-    //determine the semester of classes to parse from ninebookjson.
     private int semesterCode = 201301;
+   
+    public ArrayList<Course> courses =  new ArrayList<Course>();;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
+        WebkitCookieManagerProxy cookieStore = new WebkitCookieManagerProxy(null, java.net.CookiePolicy.ACCEPT_ALL);
+        android.webkit.CookieSyncManager.createInstance(this);
+    	android.webkit.CookieManager.getInstance().setAcceptCookie(true);
+    	java.net.CookieHandler.setDefault(cookieStore);
        
 	    
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -46,6 +51,7 @@ public class MainActivity extends Activity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
+    	
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, new CoursesFragment(semesterCode))
@@ -111,12 +117,8 @@ public class MainActivity extends Activity
     private void createCredentials() {
     	//load the cas login page to generate the cookies needed to fetch course evals.
     	FragmentManager fragmentManager = getFragmentManager();
-    	android.webkit.CookieSyncManager.createInstance(this);
-    	android.webkit.CookieManager.getInstance().setAcceptCookie(true);
-    	WebkitCookieManagerProxy coreCookieManager = new WebkitCookieManagerProxy(null, java.net.CookiePolicy.ACCEPT_ALL);
-    	java.net.CookieHandler.setDefault(coreCookieManager);
-  	    
-  	    
+    	
+  	   
     	ImprovedWebViewFragment casLoginView = new 
     			ImprovedWebViewFragment("https://students.yale.edu/evalsearch", this);
     	fragmentManager.beginTransaction()
@@ -124,7 +126,5 @@ public class MainActivity extends Activity
         .commit();
 	}
     
-    public void updateCourseList(){
-    	
-    }
+ 
 }
