@@ -4,16 +4,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
+
 import java.util.List;
 
-import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.webkit.CookieManager;
+
 
 
 public class ImageStats extends AsyncTask<Void, Void, Void> {
@@ -33,13 +32,14 @@ public class ImageStats extends AsyncTask<Void, Void, Void> {
     public  double[] getStats(int ociNum, int semesterNum, String title)
     {
     	try {
-    		
     	    double rec1 = getStats(URLgenerator.generateEvalUrl1(ociNum, semesterNum));
-    	   // Log.d("eval1: " + title + " " + ociNum, "" + rec1);
     	    double rec2 = getStats(URLgenerator.generateEvalUrl2(ociNum, semesterNum));
-    	    //Log.d("eval2: " + title + " " + ociNum, "" + rec2);
     	    
-    	    Log.d("startIndex: ", "" + startIndex);
+    	    if (Double.isNaN(rec1)) rec1 = 0.0;
+    	    if (Double.isNaN(rec2)) rec2 = 0.0;
+    	    
+    	    
+    	    Log.d("debug: ", "" + startIndex + " " + "" + rec1 + " " + rec2);
     	
     	    double[] r = {rec1, rec2};
     	    return r;
@@ -49,7 +49,6 @@ public class ImageStats extends AsyncTask<Void, Void, Void> {
     }
 	public static double getStats(String url)
 	{
-		
 		Bitmap image= getBitmapFromURL(url);
 		
 		int[] xlocs={90,150,210,270,330};
@@ -69,7 +68,7 @@ public class ImageStats extends AsyncTask<Void, Void, Void> {
 			total+=barheight*i;
 			num+=barheight;
 		}
-		return (total/(float)num);
+		return ((total/(float)num) * 100) / 100;
 	}
 	
 	public static Bitmap getBitmapFromURL(String src) {
@@ -89,25 +88,14 @@ public class ImageStats extends AsyncTask<Void, Void, Void> {
 
 	@Override
 	protected Void doInBackground(Void... params) {
-		
-		List<Course> courseList = courses;
-         
 		int size = courses.size();
 		for(int i = startIndex; i < size; i += numThreads){
 			 Course c = courses.get(i);
 			 double[] ratingsArray = getStats(c.getOCINumber(), semesterNum, c.getCourseNum());
-			 if (ratingsArray[0] == Double.NaN || ratingsArray[1] == Double.NaN) {
-				 c.setWorkRating(0.0);
-				 c.setClassRating(0.0);
-			 }
-			 else{
-				 c.setWorkRating(ratingsArray[0]);
-				 c.setClassRating(ratingsArray[1]);
-			 }
-			 
+			
+			 c.setWorkRating(ratingsArray[0]);
+			 c.setClassRating(ratingsArray[1]); 
 		}
 		return null;
 	}
-	
-	
 }

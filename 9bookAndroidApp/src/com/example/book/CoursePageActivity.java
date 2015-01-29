@@ -52,29 +52,10 @@ public class CoursePageActivity extends Activity {
 		 TextView classRating = (TextView) findViewById(R.id.Rating2);
 		 TextView workRating = (TextView) findViewById(R.id.Rating3);
 		 
-		 String pr = Double.toString(course.getProfRating());
-		 String cr = Double.toString(course.getClassRating());
-		 String wr = Double.toString(course.getWorkRating());
-		 
-		 if(pr.length() > 4){
-			 profRating.setText(pr.substring(0, 4));
-		 }
-		 else{
-			 profRating.setText(pr);
-		 }
-		 if(cr.length() > 4){
-			 classRating.setText(cr.substring(0, 4));
-		 }
-		 else{
-			 classRating.setText(cr);
-		 }
-		 if(wr.length() > 4){
-			 workRating.setText(cr.substring(0, 4));
-		 }
-		 else{
-			 workRating.setText(cr);
-		 }
-		 
-	}
 	
+		 profRating.setText(String.format("%.3f", course.getProfRating()));
+		 classRating.setText(String.format("%.3f",course.getClassRating()));
+		 workRating.setText(String.format("%.3f", course.getWorkRating()));
+ 
+	}	
 }
