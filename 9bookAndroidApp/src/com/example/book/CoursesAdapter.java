@@ -13,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 public class CoursesAdapter extends ArrayAdapter<Course>{
+	
+	
 	public CoursesAdapter(Context context, ArrayList<Course> courses) {
 		super(context, R.layout.courses_row_layout, courses);
 	}
@@ -53,5 +55,4 @@ public class CoursesAdapter extends ArrayAdapter<Course>{
 	    }
 	    this.notifyDataSetChanged();
 	}
-    
 }

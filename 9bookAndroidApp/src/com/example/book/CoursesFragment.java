@@ -42,8 +42,11 @@ public class CoursesFragment extends ListFragment{
             parser.execute();        
 	    }
 	    
-	    adapter = new CoursesAdapter(this.getActivity(), ((MainActivity)this.getActivity()).courses);
+	    adapter = new CoursesAdapter(this.getActivity(), copyCourseArray());
+	    Log.d("num courses before :", "" + ((MainActivity)this.getActivity()).courses.size());
 	    filterCourses(this.filter);
+	    Log.d("num courses after:", "" + ((MainActivity)this.getActivity()).courses.size());
+	    
 	    setListAdapter(adapter);   
 	}
 	
@@ -126,15 +129,26 @@ public class CoursesFragment extends ListFragment{
 	
 	public void filterCourses(String filter){
 		ArrayList<Course> courses = ((MainActivity)this.getActivity()).courses;
+		Log.d("num courses filter before:", "" + ((MainActivity)this.getActivity()).courses.size());
 		ArrayList<Course> filtered = new ArrayList<Course>();
-		if(filter == "")filtered = courses;		
+		if(filter == "")filtered = courses;		// no filter is applied.
 		else{
 			for(Course c : courses){
-				if(c.getTitle().contains(filter)) filtered.add(c);		
+				if(c.getTitle().contains(filter) || c.getCourseNum().contains(filter)) filtered.add(c);		
 			}
+		
 		}
 		adapter.updateCourseList(filtered);
+		Log.d("num courses filter after:", "" + ((MainActivity)this.getActivity()).courses.size());
+		
 	}
 	
-
+    public ArrayList<Course> copyCourseArray(){
+    	ArrayList<Course> copy = new ArrayList<Course>();
+    	for(Course c : ((MainActivity)this.getActivity()).courses){
+    		copy.add(c);
+    	}
+    	return copy;
+    }
+	
 }

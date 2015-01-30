@@ -91,12 +91,8 @@ public class MainActivity extends Activity
             restoreActionBar();
             
             SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-            
-            
             SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() 
             {
-            
-            	
             	 @Override
                  public boolean onQueryTextSubmit(String query) 
                  {
@@ -106,7 +102,6 @@ public class MainActivity extends Activity
                 @Override
                 public boolean onQueryTextChange(String newText) 
                 {
-                    
                     return false;
                 }
                
@@ -120,7 +115,7 @@ public class MainActivity extends Activity
 
     public void loadCourseFragment(String newText) {
     	this.getFragmentManager().beginTransaction()
-        .replace(R.id.container, new CoursesFragment(201501, newText))
+        .replace(R.id.container, new CoursesFragment(201301, newText))
         .commit();
 		
 	}
