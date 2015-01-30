@@ -53,4 +53,5 @@ public class CoursesAdapter extends ArrayAdapter<Course>{
 	    }
 	    this.notifyDataSetChanged();
 	}
+    
 }

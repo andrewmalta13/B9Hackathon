@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.webkit.CookieManager;
 import android.webkit.WebView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 
 public class MainActivity extends Activity
@@ -54,7 +55,7 @@ public class MainActivity extends Activity
     	
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, new CoursesFragment(semesterCode))
+                .replace(R.id.container, new CoursesFragment(semesterCode, ""))
                 .commit();
     }
 
@@ -89,16 +90,42 @@ public class MainActivity extends Activity
             getMenuInflater().inflate(R.menu.main, menu);
             restoreActionBar();
             
-            SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
             SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
             
-            return true;
+            
+            SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() 
+            {
+            
+            	
+            	 @Override
+                 public boolean onQueryTextSubmit(String query) 
+                 {
+            		 loadCourseFragment(query);
+                     return true;
+                 }
+                @Override
+                public boolean onQueryTextChange(String newText) 
+                {
+                    
+                    return false;
+                }
+               
+            };
+            searchView.setOnQueryTextListener(queryTextListener);
         }
-        return super.onCreateOptionsMenu(menu);
+   
+		return true;
+      
     }
 
-    @Override
+    public void loadCourseFragment(String newText) {
+    	this.getFragmentManager().beginTransaction()
+        .replace(R.id.container, new CoursesFragment(201501, newText))
+        .commit();
+		
+	}
+
+	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long

@@ -44,9 +44,6 @@ public class JsonFetch extends AsyncTask<Void, Void, String>{
 	@Override
     protected void onPostExecute(String data) {
 		((CoursesFragment)parentFragment).generateCourses(data);
-		if(((MainActivity) parentFragment.getActivity()).userAuthenticated){
-			((CoursesFragment)parentFragment).generateRatings();
-		}
 	}
 		
 }

@@ -17,10 +17,12 @@ import android.widget.ListView;
 public class CoursesFragment extends ListFragment{
 	private CoursesAdapter adapter;
 	private int semesterCode;
+	private String filter;
 	
-	public CoursesFragment(int semCode){
+	public CoursesFragment(int semCode, String filter){
 		super();
 		semesterCode = semCode; 
+		this.filter = filter;
 	}
 	
 	@Override
@@ -35,24 +37,13 @@ public class CoursesFragment extends ListFragment{
 	public void onActivityCreated(Bundle savedInstanceState) {
 	    super.onActivityCreated(savedInstanceState);
 	    
-	   
 	    if(((MainActivity)this.getActivity()).courses.isEmpty()){
             JsonFetch parser = new JsonFetch(this, "http://ninebookjson.appspot.com/"+ semesterCode + ".json");
             parser.execute();        
 	    }
-	   
 	    
-	    /* offline testing courses to use. Anyone feel free to make these more complete. Yes YOU!
-	    Course c1 = new Course("This is test course!","","","","","","","","","",false,false,20001,0.0,0.0,0.0);
-	    Course c2 = new Course("This is another test course!","","","","","","","","","",false,false,20001,0.0,0.0,0.0);
-	    Course c3 = new Course("Gotta have at least 3!","","","","","","","","","",false,false,20001,0.0,0.0,0.0);
-	    
-	    courses.add(c1);
-	    courses.add(c2);
-	    courses.add(c3);
-	    */
-	    
-	    adapter = new CoursesAdapter(getActivity(), ((MainActivity)this.getActivity()).courses);
+	    adapter = new CoursesAdapter(this.getActivity(), ((MainActivity)this.getActivity()).courses);
+	    filterCourses(this.filter);
 	    setListAdapter(adapter);   
 	}
 	
@@ -87,6 +78,7 @@ public class CoursesFragment extends ListFragment{
 	
 	
 	public void generateCourses(String json){
+
 		ArrayList<Course> courseList = new ArrayList<Course>();
 		try{
 		    JSONObject jObject = new JSONObject(json);
@@ -123,21 +115,26 @@ public class CoursesFragment extends ListFragment{
             }
             	  
             ((MainActivity)this.getActivity()).courses = courseList;
-        	adapter.updateCourseList(courseList);
-        	       
+            adapter.updateCourseList(courseList);
         }
 		
 		catch(Exception e){
 			Log.e("json parsing", "error parsing json" + e.toString());
 		}
 	}
-
-	public void generateRatings() {
-		//new ImageStats(semesterCode, courses, this).execute();
+	
+	
+	public void filterCourses(String filter){
+		ArrayList<Course> courses = ((MainActivity)this.getActivity()).courses;
+		ArrayList<Course> filtered = new ArrayList<Course>();
+		if(filter == "")filtered = courses;		
+		else{
+			for(Course c : courses){
+				if(c.getTitle().contains(filter)) filtered.add(c);		
+			}
+		}
+		adapter.updateCourseList(filtered);
 	}
 	
-	public void updateCourses(ArrayList<Course> courseList){
-		((MainActivity)this.getActivity()).courses = courseList;
-		adapter.updateCourseList(courseList);
-	}
+
 }

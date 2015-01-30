@@ -105,10 +105,8 @@ public class ImprovedWebViewFragment extends Fragment {
     	}
     	
  
-
-
     	this.getFragmentManager().beginTransaction()
-        .replace(R.id.container, new CoursesFragment(201501))
+        .replace(R.id.container, new CoursesFragment(201501, ""))
         .commit();
     }
  
