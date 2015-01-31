@@ -132,9 +132,12 @@ public class CoursesFragment extends ListFragment{
 		Log.d("num courses filter before:", "" + ((MainActivity)this.getActivity()).courses.size());
 		ArrayList<Course> filtered = new ArrayList<Course>();
 		if(filter == "")filtered = courses;		// no filter is applied.
+		
 		else{
+			filter = filter.toLowerCase();
 			for(Course c : courses){
-				if(c.getTitle().contains(filter) || c.getCourseNum().contains(filter)) filtered.add(c);		
+				if((c.getTitle()).toLowerCase().contains(filter) ||
+						c.getCourseNum().toLowerCase().contains(filter)) filtered.add(c);		
 			}
 		
 		}

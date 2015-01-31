@@ -25,6 +25,7 @@ public class MainActivity extends Activity
     private CharSequence mTitle;
     public Boolean userAuthenticated = false;
     private int semesterCode = 201301;
+    private SearchView searchView;
    
     public ArrayList<Course> courses =  new ArrayList<Course>();;
 
@@ -38,7 +39,6 @@ public class MainActivity extends Activity
     	android.webkit.CookieManager.getInstance().setAcceptCookie(true);
     	java.net.CookieHandler.setDefault(cookieStore);
        
-	    
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -90,21 +90,20 @@ public class MainActivity extends Activity
             getMenuInflater().inflate(R.menu.main, menu);
             restoreActionBar();
             
-            SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+            this.searchView = (SearchView) menu.findItem(R.id.search).getActionView();
             SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() 
             {
             	 @Override
-                 public boolean onQueryTextSubmit(String query) 
-                 {
-            		 loadCourseFragment(query);
-                     return true;
-                 }
-                @Override
-                public boolean onQueryTextChange(String newText) 
-                {
-                    return false;
-                }
-               
+            	    public boolean onQueryTextSubmit(String query) 
+            	    {
+            			handleQuery(query); 
+            	        return true;
+            	    }
+            	   @Override
+            	   public boolean onQueryTextChange(String newText) 
+            	   {
+            	       return false;
+            	   }
             };
             searchView.setOnQueryTextListener(queryTextListener);
         }
@@ -112,12 +111,12 @@ public class MainActivity extends Activity
 		return true;
       
     }
-
-    public void loadCourseFragment(String newText) {
+    
+    public void handleQuery(String newText) {
     	this.getFragmentManager().beginTransaction()
         .replace(R.id.container, new CoursesFragment(201301, newText))
         .commit();
-		
+    	searchView.clearFocus();
 	}
 
 	@Override
