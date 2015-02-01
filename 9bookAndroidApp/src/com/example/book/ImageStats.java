@@ -92,7 +92,7 @@ public class ImageStats extends AsyncTask<Void, Void, Void> {
 		for(int i = startIndex; i < size; i += numThreads){
 			 Course c = courses.get(i);
 			 double[] ratingsArray = getStats(c.getOCINumber(), semesterNum, c.getCourseNum());
-			
+			 
 			 c.setWorkRating(ratingsArray[0]);
 			 c.setClassRating(ratingsArray[1]); 
 		}

@@ -100,13 +100,13 @@ public class ImprovedWebViewFragment extends Fragment {
     	EvalExecutor e = new EvalExecutor();
     	
     	for(int i = 0; i <= 99; i++){
-    		new ImageStats(201301, ((MainActivity)this.getActivity()).
+    		new ImageStats(((MainActivity)this.getActivity()).semesterCode, ((MainActivity)this.getActivity()).
     				courses, i, 100).executeOnExecutor(e, null);
     	}
     	
  
     	this.getFragmentManager().beginTransaction()
-        .replace(R.id.container, new CoursesFragment(201501, ""))
+        .replace(R.id.container, new CoursesFragment(((MainActivity)this.getActivity()).semesterCode, "", false))
         .commit();
     }
  

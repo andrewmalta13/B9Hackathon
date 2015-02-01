@@ -18,11 +18,13 @@ public class CoursesFragment extends ListFragment{
 	private CoursesAdapter adapter;
 	private int semesterCode;
 	private String filter;
+	private Boolean needCourseReload = false;  //see if we need to load a new set of courses
 	
-	public CoursesFragment(int semCode, String filter){
+	public CoursesFragment(int semCode, String filter, Boolean needCourseReload){
 		super();
 		semesterCode = semCode; 
 		this.filter = filter;
+		this.needCourseReload = needCourseReload;
 	}
 	
 	@Override
@@ -37,16 +39,14 @@ public class CoursesFragment extends ListFragment{
 	public void onActivityCreated(Bundle savedInstanceState) {
 	    super.onActivityCreated(savedInstanceState);
 	    
-	    if(((MainActivity)this.getActivity()).courses.isEmpty()){
+	    if(((MainActivity)this.getActivity()).courses.isEmpty()  || needCourseReload){
+	    	Log.d("debug", "recreated courses");
             JsonFetch parser = new JsonFetch(this, "http://ninebookjson.appspot.com/"+ semesterCode + ".json");
             parser.execute();        
 	    }
 	    
 	    adapter = new CoursesAdapter(this.getActivity(), copyCourseArray());
-	    Log.d("num courses before :", "" + ((MainActivity)this.getActivity()).courses.size());
 	    filterCourses(this.filter);
-	    Log.d("num courses after:", "" + ((MainActivity)this.getActivity()).courses.size());
-	    
 	    setListAdapter(adapter);   
 	}
 	
@@ -69,13 +69,6 @@ public class CoursesFragment extends ListFragment{
 		
 		this.getActivity().startActivity(courseIntent);
 		
-		/*
-		CoursePageFragment page = new CoursePageFragment(courseSelected);	
-		FragmentManager fm = getActivity().getFragmentManager();
-		FragmentTransaction ft = fm.beginTransaction();
-		ft.replace(R.id.container, page);
-		
-		ft.commit(); */
 	}
 	
 	
@@ -129,9 +122,8 @@ public class CoursesFragment extends ListFragment{
 	
 	public void filterCourses(String filter){
 		ArrayList<Course> courses = ((MainActivity)this.getActivity()).courses;
-		Log.d("num courses filter before:", "" + ((MainActivity)this.getActivity()).courses.size());
 		ArrayList<Course> filtered = new ArrayList<Course>();
-		if(filter == "")filtered = courses;		// no filter is applied.
+		if(filter == "")filtered = courses;
 		
 		else{
 			filter = filter.toLowerCase();
@@ -142,7 +134,6 @@ public class CoursesFragment extends ListFragment{
 		
 		}
 		adapter.updateCourseList(filtered);
-		Log.d("num courses filter after:", "" + ((MainActivity)this.getActivity()).courses.size());
 		
 	}
 	

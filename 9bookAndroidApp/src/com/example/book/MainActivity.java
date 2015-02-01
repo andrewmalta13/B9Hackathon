@@ -24,7 +24,7 @@ public class MainActivity extends Activity
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private CharSequence mTitle;
     public Boolean userAuthenticated = false;
-    private int semesterCode = 201301;
+    public int semesterCode = 201301;
     private SearchView searchView;
    
     public ArrayList<Course> courses =  new ArrayList<Course>();;
@@ -52,26 +52,37 @@ public class MainActivity extends Activity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
+    	boolean needCourseReload = false;
+    	switch (position) {
+        case 0:
+            mTitle = "Spring 2015";
+            if(semesterCode != 201501){
+            	needCourseReload = true;
+            	semesterCode = 201501;
+            }
+            break;
+        case 1:
+            mTitle = "Fall 2014";
+            if(semesterCode != 201403){
+            	needCourseReload = true;
+            	semesterCode = 201403;
+            }
+            break;
+        case 2:
+            mTitle = "Spring 2013";
+            if(semesterCode != 201301){
+            	needCourseReload = true;
+            	semesterCode = 201301;
+            }
+            break;  
+    	}
     	
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, new CoursesFragment(semesterCode, ""))
+                .replace(R.id.container, new CoursesFragment(semesterCode, "", needCourseReload))
                 .commit();
     }
 
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
-                mTitle = getString(R.string.title_section1);
-                break;
-            case 2:
-                mTitle = getString(R.string.title_section2);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section3);
-                break;
-        }
-    }
 
     public void restoreActionBar() {
         ActionBar actionBar = getActionBar();
@@ -114,7 +125,7 @@ public class MainActivity extends Activity
     
     public void handleQuery(String newText) {
     	this.getFragmentManager().beginTransaction()
-        .replace(R.id.container, new CoursesFragment(201301, newText))
+        .replace(R.id.container, new CoursesFragment(semesterCode, newText, false))
         .commit();
     	searchView.clearFocus();
 	}
