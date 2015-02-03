@@ -17,7 +17,6 @@ import android.webkit.WebView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-
 public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
@@ -113,7 +112,8 @@ public class MainActivity extends Activity
             	   @Override
             	   public boolean onQueryTextChange(String newText) 
             	   {
-            	       return false;
+            		   loadFilteredCourseFragment(newText);
+            	       return true;
             	   }
             };
             searchView.setOnQueryTextListener(queryTextListener);
@@ -124,11 +124,16 @@ public class MainActivity extends Activity
     }
     
     public void handleQuery(String newText) {
-    	this.getFragmentManager().beginTransaction()
-        .replace(R.id.container, new CoursesFragment(semesterCode, newText, false))
-        .commit();
     	searchView.clearFocus();
+    	loadFilteredCourseFragment(newText);
+    	
 	}
+    
+    public void loadFilteredCourseFragment(String filter){
+    	this.getFragmentManager().beginTransaction()
+        .replace(R.id.container, new CoursesFragment(semesterCode, filter, false))
+        .commit();
+    }
 
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
