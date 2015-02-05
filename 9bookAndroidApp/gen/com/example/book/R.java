@@ -40,7 +40,7 @@ public final class R {
         public static final int Rating1=0x7f0a000a;
         public static final int Rating2=0x7f0a000b;
         public static final int Rating3=0x7f0a000c;
-        public static final int action_settings=0x7f0a0014;
+        public static final int action_settings=0x7f0a0015;
         public static final int cas_login=0x7f0a0003;
         public static final int container=0x7f0a0001;
         public static final int courseName=0x7f0a0004;
@@ -51,15 +51,16 @@ public final class R {
         public static final int distReqAreas_row=0x7f0a0010;
         public static final int distReqs=0x7f0a0007;
         public static final int drawer_layout=0x7f0a0000;
+        public static final int list_header=0x7f0a0013;
         public static final int location=0x7f0a0006;
         public static final int location_row=0x7f0a0012;
         public static final int navigation_drawer=0x7f0a0002;
         public static final int professorName_row=0x7f0a000f;
-        public static final int search=0x7f0a0015;
-        public static final int section_label=0x7f0a0013;
+        public static final int search=0x7f0a0016;
+        public static final int section_label=0x7f0a0014;
         public static final int time=0x7f0a0005;
         public static final int time_row=0x7f0a0011;
-        public static final int update_course_list=0x7f0a0016;
+        public static final int update_course_list=0x7f0a0017;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -67,8 +68,9 @@ public final class R {
         public static final int course_page_layout=0x7f030002;
         public static final int courses_list_fragment=0x7f030003;
         public static final int courses_row_layout=0x7f030004;
-        public static final int fragment_main=0x7f030005;
-        public static final int fragment_navigation_drawer=0x7f030006;
+        public static final int expandable_list_header=0x7f030005;
+        public static final int fragment_main=0x7f030006;
+        public static final int fragment_navigation_drawer=0x7f030007;
     }
     public static final class menu {
         public static final int global=0x7f090000;

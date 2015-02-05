@@ -68,7 +68,6 @@ public class CoursesFragment extends ListFragment{
 		 
 		
 		this.getActivity().startActivity(courseIntent);
-		
 	}
 	
 	
